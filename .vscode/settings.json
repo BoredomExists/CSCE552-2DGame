@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Neon Aegis.sln"
+    "dotnet.defaultSolution": "CSCE552-2DGame.sln"
 }
