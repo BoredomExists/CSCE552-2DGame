@@ -2005,7 +2005,6 @@ MonoBehaviour:
   moveSpeed: 5
   sprintSpeed: 12
   jumpForce: 10
-  fastFallSpeed: 15
   groundCheck: {fileID: 1005615725}
   groundCheckRadius: 0.2
   ground:
@@ -2013,6 +2012,7 @@ MonoBehaviour:
     m_Bits: 64
   isGrounded: 0
   airSpeed: 20
+  fastFallSpeed: 50
   mainCamera: {fileID: 519420032}
   player: {fileID: 1058032270}
   rotationSpeed: 10
