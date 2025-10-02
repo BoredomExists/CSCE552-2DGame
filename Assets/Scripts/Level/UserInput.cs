@@ -1,16 +1,23 @@
+using System;
+using NUnit.Framework.Constraints;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UserInput : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
-    public float jumpForce = 7f;
+    public float sprintSpeed = 12f;
+    public float jumpForce = 10f;
 
     [Header("Ground Check")]
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
     public LayerMask ground;
     public bool grounded;
+
+    [Header("Air Settings")]
+    public float airAcceleration = 20f;
 
     [Header("Camera Settings")]
     public Transform mainCamera;
@@ -21,12 +28,14 @@ public class UserInput : MonoBehaviour
     private Vector2 moveVector;
 
     private float zRotation = 0f;
+    private float lastGroundSpeed;
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        lastGroundSpeed = moveSpeed;
     }
 
     // Update is called once per frame
@@ -42,24 +51,57 @@ public class UserInput : MonoBehaviour
         {
             rb.AddForce(-Physics2D.gravity.normalized * jumpForce, ForceMode2D.Impulse);
         }
+
+        lastGroundSpeed = (Input.GetKey(KeyCode.LeftShift) && grounded) ? sprintSpeed : moveSpeed;
+
+        ChangeRotation();
         
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        mainCamera.rotation = Quaternion.Euler(0f, 0f, zRotation);
+        player.rotation = Quaternion.Euler(0f, 0f, zRotation);
+    }
+    
+    private void ChangeRotation()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             zRotation += 90f;
             ChangeGravity();
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             zRotation -= 90f;
             ChangeGravity();
         }
-        mainCamera.rotation = Quaternion.Euler(0f, 0f, zRotation);
-        player.rotation = Quaternion.Euler(0f, 0f, zRotation);
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            zRotation += 180;
+            ChangeGravity();
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            zRotation -= 180;
+            ChangeGravity();
+        }
     }
 
     void FixedUpdate()
     {
-        Vector2 moveDir = player.right * moveVector.x * moveSpeed;
+        float cLateral = Vector2.Dot(rb.linearVelocity, player.right);
+        float groundTarget = moveVector.x * lastGroundSpeed;
+        float airTarget = moveVector.x * moveSpeed;
+        float finalLateral;
+
+        if (grounded)
+        {
+            finalLateral = groundTarget;
+        }
+        else
+        {
+            finalLateral = Mathf.MoveTowards(cLateral, airTarget, airAcceleration * Time.fixedDeltaTime);
+        }
+
+
+        Vector2 moveDir = player.right * finalLateral;
 
         Vector2 gravityVelocity = Project(rb.linearVelocity, Physics2D.gravity.normalized);
 
@@ -70,7 +112,7 @@ public class UserInput : MonoBehaviour
     
     private Vector2 Project(Vector2 a, Vector2 b)
     {
-        return (Vector2.Dot(a, b) * b.sqrMagnitude) * b;
+        return (Vector2.Dot(a, b) / b.sqrMagnitude) * b;
     }
     
     private void ChangeGravity()
