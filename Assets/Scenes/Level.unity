@@ -1812,8 +1812,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1005615724}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.1, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.1000004, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1831,7 +1831,7 @@ GameObject:
   - component: {fileID: 1058032269}
   - component: {fileID: 1058032271}
   - component: {fileID: 1058032272}
-  - component: {fileID: 1058032273}
+  - component: {fileID: 1058032275}
   - component: {fileID: 1058032274}
   m_Layer: 0
   m_Name: Player
@@ -1976,30 +1976,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
---- !u!114 &1058032273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1058032268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ade91783004a7884398ede8bbda15b90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  sprintSpeed: 12
-  jumpForce: 10
-  groundCheck: {fileID: 1005615725}
-  groundCheckRadius: 0.2
-  ground:
-    serializedVersion: 2
-    m_Bits: 64
-  grounded: 0
-  airAcceleration: 10
-  mainCamera: {fileID: 519420032}
-  player: {fileID: 1058032270}
 --- !u!114 &1058032274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2014,6 +1990,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   healthText: {fileID: 1263301605}
+--- !u!114 &1058032275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058032268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a4adff5ec17f1b449df3d84ab5ea824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  sprintSpeed: 12
+  jumpForce: 10
+  fastFallSpeed: 15
+  groundCheck: {fileID: 1005615725}
+  groundCheckRadius: 0.2
+  ground:
+    serializedVersion: 2
+    m_Bits: 64
+  isGrounded: 0
+  airSpeed: 20
+  mainCamera: {fileID: 519420032}
+  player: {fileID: 1058032270}
+  rotationSpeed: 10
 --- !u!1 &1263301603
 GameObject:
   m_ObjectHideFlags: 0
