@@ -1,20 +1,23 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthSystem : MonoBehaviour
 {
     [Header("Health Settings")]
-    public int maxHealth;
-    private int currentHealth;
+    public int maxHealth = 100;
+    public int currentHealth;
 
+    public event Action<int, int> OnHealthChange;
 
-    public Text healthText;
+    void Awake()
+    {
+        currentHealth = maxHealth;
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        maxHealth = 100;
-        currentHealth = maxHealth;
-        healthText.text = maxHealth.ToString();
+        OnHealthChange?.Invoke(currentHealth, maxHealth);
     }
 
     // Update is called once per frame
@@ -33,11 +36,32 @@ public class HealthSystem : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void TakeDamage(int dmg)
+public void TakeDamage(int amount)
     {
-        currentHealth -= dmg;
-        healthText.text = currentHealth.ToString();
+        if (amount <= 0) return;
+        currentHealth = Mathf.Clamp(currentHealth - amount, 0, maxHealth);
+        OnHealthChange?.Invoke(currentHealth, maxHealth);
+        if (currentHealth <= 0) Die();
+    }
+
+    public void Heal(int amount)
+    {
+        if (amount <= 0) return;
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        OnHealthChange?.Invoke(currentHealth, maxHealth);
+    }
+
+    public void SetHealth(int value)
+    {
+        currentHealth = Mathf.Clamp(value, 0, maxHealth);
+        OnHealthChange?.Invoke(currentHealth, maxHealth);
+        if (currentHealth <= 0) Die();
+    }
+
+    private void Die()
+    {
+        // simple default: disable object. Replace with your own death logic.
+        gameObject.SetActive(false);
     }
     
     
