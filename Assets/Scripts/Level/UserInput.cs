@@ -1,6 +1,5 @@
 using System;
 using Unity.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UserInput : MonoBehaviour
@@ -18,10 +17,12 @@ public class UserInput : MonoBehaviour
 
     [Header("Air Settings")]
     public float airSpeed = 20f;
+    public float fastFallSpeed = 20f;
 
     [Header("Camera Settings")]
     public Transform mainCamera;
     public Transform player;
+    public float rotationSpeed = 10f;
 
     private Rigidbody2D rb;
     private Vector2 moveVector;
@@ -48,7 +49,19 @@ public class UserInput : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
             rb.AddForce(-Physics2D.gravity.normalized * jumpForce, ForceMode2D.Impulse);
 
-        lastGroundSpeed = (Input.GetKey(KeyCode.LeftShift) && isGrounded) ? sprintSpeed : moveSpeed; 
+        if (Input.GetKeyDown(KeyCode.S) && !isGrounded)
+            rb.linearVelocity += Physics2D.gravity.normalized * fastFallSpeed;
+
+        lastGroundSpeed = (Input.GetKey(KeyCode.LeftShift) && isGrounded) ? sprintSpeed : moveSpeed;
+
+        ChangeRotation();
+
+        Quaternion rotationToTurnTo = Quaternion.Euler(0f, 0f, zRotation);
+
+        if (mainCamera != null)
+            mainCamera.rotation = Quaternion.Lerp(mainCamera.rotation, rotationToTurnTo, rotationSpeed * Time.deltaTime);
+        if (player != null)
+            player.rotation = Quaternion.Lerp(player.rotation, rotationToTurnTo, rotationSpeed * Time.deltaTime);
     }
 
     void FixedUpdate()
@@ -93,5 +106,58 @@ public class UserInput : MonoBehaviour
             if (dot > 0.7f) return true;
         }
         return false;
+    }
+
+    // Handles input for rotating camera and player
+    private void ChangeRotation()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            zRotation += 90f;
+            ChangeGravity();
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            zRotation -= 90f;
+            ChangeGravity();
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            zRotation += 180f;
+            ChangeGravity();
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            zRotation -= 180f;
+            ChangeGravity();
+        }
+    }
+
+    // Creates the new gravity when the rotation is changed
+    private void ChangeGravity()
+    {
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+
+        // Stores the old gravity before rotation
+        Vector2 oldGravity = Physics2D.gravity.sqrMagnitude < 1e-6f ? Vector2.down : Physics2D.gravity.normalized;
+
+        // Calculates the new gravity from the rotation
+        Vector2 newGravity = Quaternion.Euler(0f, 0f, zRotation) * Vector2.down * 9.81f;
+        Physics2D.gravity = newGravity;
+
+        // Angle difference between the old and new gravity vectors
+        float deltaAngle = Vector2.SignedAngle(oldGravity, newGravity.normalized);
+
+        // Rotate current velocity by deltaAngle so momentum is preserved
+        rb.linearVelocity = RotateVector(rb.linearVelocity, deltaAngle);
+    }
+    
+    // Rotates a vector by X degrees in 2D
+    private Vector2 RotateVector(Vector2 v, float degrees)
+    {
+        float rad = degrees * Mathf.Deg2Rad;
+        float c = Mathf.Cos(rad);
+        float s = Mathf.Sin(rad);
+        return new Vector2(v.x * c - v.y * s, v.x * s + v.y * c);
     }
 }
