@@ -1,4 +1,5 @@
 using System;
+using Unity.Cinemachine;
 using Unity.Collections;
 using UnityEngine;
 
@@ -29,11 +30,17 @@ public class UserInput : MonoBehaviour
     private float lastGroundSpeed;
 
     private float zRotation = 0f;
+
+    private CinemachineCamera ccam;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         lastGroundSpeed = moveSpeed;
+
+        ccam = FindFirstObjectByType<CinemachineCamera>();
+        if (ccam != null)
+            mainCamera = ccam.transform;
     }
 
     // Update is called once per frame
@@ -58,8 +65,8 @@ public class UserInput : MonoBehaviour
 
         Quaternion rotationToTurnTo = Quaternion.Euler(0f, 0f, zRotation);
 
-        if (mainCamera != null)
-            mainCamera.rotation = Quaternion.Lerp(mainCamera.rotation, rotationToTurnTo, rotationSpeed * Time.deltaTime);
+        //if (mainCamera != null)
+        //    mainCamera.rotation = Quaternion.Lerp(mainCamera.rotation, rotationToTurnTo, rotationSpeed * Time.deltaTime);
         if (player != null)
             player.rotation = Quaternion.Lerp(player.rotation, rotationToTurnTo, rotationSpeed * Time.deltaTime);
     }
@@ -138,17 +145,11 @@ public class UserInput : MonoBehaviour
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
 
-        // Stores the old gravity before rotation
         Vector2 oldGravity = Physics2D.gravity.sqrMagnitude < 1e-6f ? Vector2.down : Physics2D.gravity.normalized;
-
-        // Calculates the new gravity from the rotation
         Vector2 newGravity = Quaternion.Euler(0f, 0f, zRotation) * Vector2.down * 9.81f;
         Physics2D.gravity = newGravity;
 
-        // Angle difference between the old and new gravity vectors
         float deltaAngle = Vector2.SignedAngle(oldGravity, newGravity.normalized);
-
-        // Rotate current velocity by deltaAngle so momentum is preserved
         rb.linearVelocity = RotateVector(rb.linearVelocity, deltaAngle);
     }
     

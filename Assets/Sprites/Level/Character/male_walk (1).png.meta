@@ -131,10 +131,10 @@ TextureImporter:
       name: male_walk (1)_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 62
-        width: 21
-        height: 35
+        x: 0
+        y: 59
+        width: 30
+        height: 41
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,10 +153,10 @@ TextureImporter:
       name: male_walk (1)_1
       rect:
         serializedVersion: 2
-        x: 38
-        y: 61
-        width: 21
-        height: 35
+        x: 30
+        y: 59
+        width: 30
+        height: 41
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,10 +175,10 @@ TextureImporter:
       name: male_walk (1)_2
       rect:
         serializedVersion: 2
-        x: 66
-        y: 62
-        width: 21
-        height: 35
+        x: 60
+        y: 59
+        width: 30
+        height: 41
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,10 +197,10 @@ TextureImporter:
       name: male_walk (1)_3
       rect:
         serializedVersion: 2
-        x: 8
-        y: 22
-        width: 21
-        height: 35
+        x: 0
+        y: 18
+        width: 30
+        height: 41
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -219,10 +219,10 @@ TextureImporter:
       name: male_walk (1)_4
       rect:
         serializedVersion: 2
-        x: 37
-        y: 23
-        width: 21
-        height: 35
+        x: 30
+        y: 18
+        width: 30
+        height: 41
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -241,10 +241,10 @@ TextureImporter:
       name: male_walk (1)_5
       rect:
         serializedVersion: 2
-        x: 66
-        y: 13
-        width: 21
-        height: 44
+        x: 60
+        y: 18
+        width: 30
+        height: 41
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -263,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: ed986ec14002dfa40823e4eee79504fa
     internalID: 0
     vertices: []
     indices: 
