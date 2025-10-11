@@ -99,7 +99,7 @@ public class UserInput : MonoBehaviour
         return (Vector2.Dot(a, b) / b.sqrMagnitude) * b;
     }
 
-    private bool CheckIsGrounded()
+    public bool CheckIsGrounded()
     {
         if (groundCheck == null) return false;
 
