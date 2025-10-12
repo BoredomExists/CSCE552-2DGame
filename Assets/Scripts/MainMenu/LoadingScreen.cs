@@ -24,6 +24,8 @@ public class LoadingScreen : MonoBehaviour
 
         mainMenu.SetActive(false);
         loadingScreen.SetActive(true);
+        loadingScreenSlider.value = 0f;
+        loadingText.text = "0%";
         StartCoroutine(PreloadLevel());
     }
 
