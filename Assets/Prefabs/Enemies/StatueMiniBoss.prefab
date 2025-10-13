@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: -7629692961372066165}
   - component: {fileID: 1413056651045111256}
   - component: {fileID: -37312289636309984}
+  - component: {fileID: 7564128692816742378}
   m_Layer: 0
   m_Name: StatueMiniBoss
   m_TagString: Untagged
@@ -264,6 +265,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravityStrength: 9.81
+--- !u!114 &7564128692816742378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916396527685918236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93e472d2355e5c44699969ca1a76ea92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 150
+  currentHealth: 0
 --- !u!1 &4079768880687362718
 GameObject:
   m_ObjectHideFlags: 0

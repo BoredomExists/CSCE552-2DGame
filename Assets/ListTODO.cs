@@ -6,14 +6,13 @@ public class ListTODO : MonoBehaviour
     * Player Animations
     * Player Hitboxes
     * Player Abilities
-    * Health System
     * Enemy Animation
-    * Enemy Hitboxes
+    * Enemy Hitboxes (Final Boss)
     * Enemy Health
     * UI Elements
-    * Win/Lose/Settings Screen
+    * Win/Lose/Pause-Settings Screen
     * Level Design (Doors, Debris, etc.)
-    * Key System
+    * Key System To Unlock Doors
     * Game Audio
     * Game Music
     */

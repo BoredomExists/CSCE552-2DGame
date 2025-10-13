@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3684716368291275073}
   - component: {fileID: 4063813927978265701}
   - component: {fileID: 8603842400064758909}
+  - component: {fileID: 8501387108974844410}
   m_Layer: 0
   m_Name: LaserBasicEnemy
   m_TagString: Untagged
@@ -121,6 +122,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravityStrength: 9.81
+--- !u!114 &8501387108974844410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7323816569513605125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93e472d2355e5c44699969ca1a76ea92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
 --- !u!1 &8301653473340858654
 GameObject:
   m_ObjectHideFlags: 0

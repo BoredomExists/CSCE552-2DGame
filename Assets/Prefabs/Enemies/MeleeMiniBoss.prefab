@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 8013996231598717594}
   - component: {fileID: 359509070522949146}
   - component: {fileID: 8566743754280975556}
+  - component: {fileID: 7195112325113098729}
   m_Layer: 0
   m_Name: MeleeMiniBoss
   m_TagString: Untagged
@@ -231,3 +232,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravityStrength: 9.81
+--- !u!114 &7195112325113098729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8174790393198983958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93e472d2355e5c44699969ca1a76ea92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 150
+  currentHealth: 0

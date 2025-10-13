@@ -10,10 +10,10 @@ public class RoomCameraTrigger : MonoBehaviour
         public Transform doorPoint;   // assign door position in Inspector
         public Vector2 roomOffset;    // camera offset for this door
     }
-
     public float targetOrthoSize = 12f;
     public float transitionSpeed = 2f;
     public Door[] doors;          // assign all doors here
+    public static bool roomEntered;
 
     private CinemachineCamera cam;
     private CinemachinePositionComposer camPos;
@@ -28,18 +28,19 @@ public class RoomCameraTrigger : MonoBehaviour
             originalFollowTarget = cam.Follow;
     }
 
+    // Checks if the user entered the room
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;
 
-        Vector2 playerPos = collision.transform.position;
-        Door closestDoor = null;
-        float bestDist = float.MaxValue;
+        Vector2 playerPos = collision.transform.position;                                       // Gets the player's current position
+        Door closestDoor = null;                                                                // Check for which door was entered
+        float bestDist = float.MaxValue;                                                        // Gets the max value of the float variable
 
         foreach (var door in doors)
         {
             if (door.doorPoint == null) continue;
-            float dist = Vector2.SqrMagnitude((Vector2)door.doorPoint.position - playerPos);
+            float dist = Vector2.SqrMagnitude((Vector2)door.doorPoint.position - playerPos);    // Gets the closest door to the player (normally the one entered)
             if (dist < bestDist)
             {
                 bestDist = dist;
@@ -49,8 +50,9 @@ public class RoomCameraTrigger : MonoBehaviour
 
         if (closestDoor != null)
         {
-            currentOffset = closestDoor.roomOffset;
+            currentOffset = closestDoor.roomOffset;                                             // Door found, so get the offset of the camera from the player to see the whole room
 
+            // Sets the offset
             if (camPos != null)
             {
                 Vector3 cur = camPos.TargetOffset;
@@ -69,6 +71,8 @@ public class RoomCameraTrigger : MonoBehaviour
             }
         }
 
+        // Changes the camera's orthographic size to view the whole room
+        roomEntered = true;
         StopAllCoroutines();
         StartCoroutine(Zoom(targetOrthoSize));
     }
@@ -77,6 +81,7 @@ public class RoomCameraTrigger : MonoBehaviour
     {
         if (!collision.CompareTag("Player")) return;
 
+        // Changes the camera back to focus on the player when leaving the room
         if (camPos != null)
         {
             camPos.TargetOffset = Vector2.zero;
@@ -87,6 +92,7 @@ public class RoomCameraTrigger : MonoBehaviour
             cam.Follow = originalFollowTarget;
         }
 
+        roomEntered = false;
         StopAllCoroutines();
         StartCoroutine(Zoom(7f));
     }
@@ -95,6 +101,7 @@ public class RoomCameraTrigger : MonoBehaviour
     {
         if (cam == null) yield break;
 
+        // Changes the orthographic size of the camera when entering and leaving a room
         while (Mathf.Abs(cam.Lens.OrthographicSize - zoom) > 0.01f)
         {
             cam.Lens.OrthographicSize = Mathf.Lerp(

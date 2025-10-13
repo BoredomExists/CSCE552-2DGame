@@ -48,25 +48,29 @@ public class UserInput : MonoBehaviour
     {
         isGrounded = CheckIsGrounded();
         float moveX = 0f;
-        if (Input.GetKey(KeyCode.A)) moveX = -1f;
-        if (Input.GetKey(KeyCode.D)) moveX = 1f;
+        if (Input.GetKey(KeyCode.A)) moveX = -1f;                                                                   // Check if the player is moving left
+        if (Input.GetKey(KeyCode.D)) moveX = 1f;                                                                    // Check if the player is moving right        
 
-        moveVector = new Vector2(moveX, 0f);
+        moveVector = new Vector2(moveX, 0f);                                                                        // Set the vector in which direction the player is moving
 
+        // Jump Function
         if (Input.GetButtonDown("Jump") && isGrounded)
             rb.AddForce(-Physics2D.gravity.normalized * jumpForce, ForceMode2D.Impulse);
 
+        // Fast Fall Function
         if (Input.GetKeyDown(KeyCode.S) && !isGrounded)
             rb.linearVelocity += Physics2D.gravity.normalized * fastFallSpeed;
 
-        lastGroundSpeed = (Input.GetKey(KeyCode.LeftShift) && isGrounded) ? sprintSpeed : moveSpeed;
+        lastGroundSpeed = (Input.GetKey(KeyCode.LeftShift) && isGrounded) ? sprintSpeed : moveSpeed;               // Determines if the player is sprinting or not
 
         ChangeRotation();
 
         Quaternion rotationToTurnTo = Quaternion.Euler(0f, 0f, zRotation);
 
-        //if (mainCamera != null)
-        //    mainCamera.rotation = Quaternion.Lerp(mainCamera.rotation, rotationToTurnTo, rotationSpeed * Time.deltaTime);
+        // Changes the camera and player rotation
+        if (mainCamera != null)
+            if (!RoomCameraTrigger.roomEntered)
+                mainCamera.rotation = Quaternion.Lerp(mainCamera.rotation, rotationToTurnTo, rotationSpeed * Time.deltaTime);
         if (player != null)
             player.rotation = Quaternion.Lerp(player.rotation, rotationToTurnTo, rotationSpeed * Time.deltaTime);
     }
@@ -75,11 +79,11 @@ public class UserInput : MonoBehaviour
     {
         isGrounded = CheckIsGrounded();
 
-        Vector2 lateralAxis = (Quaternion.Euler(0f, 0f, zRotation) * Vector2.right).normalized;
-        float currentLateral = Vector2.Dot(rb.linearVelocity, lateralAxis);
+        Vector2 lateralAxis = (Quaternion.Euler(0f, 0f, zRotation) * Vector2.right).normalized;         // Gets the current lateral axis representing the player moving left or right in the rotation frame
+        float currentLateral = Vector2.Dot(rb.linearVelocity, lateralAxis);                             // Projects the current velocity onto the lateral to get the signed lateral speed
 
-        float groundTarget = moveVector.x * lastGroundSpeed;
-        float airTarget = moveVector.x * lastGroundSpeed;
+        float groundTarget = moveVector.x * lastGroundSpeed;                                            // Desired lateral speeds for on the ground
+        float airTarget = moveVector.x * lastGroundSpeed;                                               // or in the air
         float finalLateral;
 
         if (isGrounded)
@@ -87,8 +91,8 @@ public class UserInput : MonoBehaviour
         else
             finalLateral = Mathf.MoveTowards(currentLateral, airTarget, airSpeed * Time.fixedDeltaTime);
 
-        Vector2 lateralVelocity = lateralAxis * finalLateral;
-        Vector2 gravityVelocity = Vector2Project(rb.linearVelocity, Physics2D.gravity.normalized);
+        Vector2 lateralVelocity = lateralAxis * finalLateral;                                          // Reconstruct the new velocity
+        Vector2 gravityVelocity = Vector2Project(rb.linearVelocity, Physics2D.gravity.normalized);     // Keep only the component of current velocity along gravity
 
         rb.linearVelocity = lateralVelocity + gravityVelocity;
     }
@@ -99,6 +103,7 @@ public class UserInput : MonoBehaviour
         return (Vector2.Dot(a, b) / b.sqrMagnitude) * b;
     }
 
+    // Check if the player is grounded
     public bool CheckIsGrounded()
     {
         if (groundCheck == null) return false;

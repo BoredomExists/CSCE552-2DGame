@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 4408379427672564253}
   - component: {fileID: 3870853039082384289}
   - component: {fileID: 4967423044901635770}
+  - component: {fileID: 4750877424004040006}
   m_Layer: 0
   m_Name: MeleeBasicEnemy
   m_TagString: Untagged
@@ -278,3 +279,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravityStrength: 9.81
+--- !u!114 &4750877424004040006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4444464087408238349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93e472d2355e5c44699969ca1a76ea92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0

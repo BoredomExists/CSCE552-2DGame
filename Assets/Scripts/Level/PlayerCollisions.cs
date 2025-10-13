@@ -2,18 +2,9 @@ using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    // Checks the collisions of the player
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    // If the player entered the room, disable the "cover" and enable all objects in the room
     void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject room = collision.gameObject;
@@ -28,6 +19,7 @@ public class PlayerCollisions : MonoBehaviour
         }
     }
 
+    // Checks if the player exited the room, if so, enable the "cover" while disabling all objects in the room
     void OnTriggerExit2D(Collider2D collision)
     {
         GameObject room = collision.gameObject;
