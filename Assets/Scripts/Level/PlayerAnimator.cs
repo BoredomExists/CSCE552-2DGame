@@ -67,4 +67,9 @@ public class PlayerAnimator : MonoBehaviour
             animator.SetTrigger("isAttacking");
         }
     }
+
+    public int GetLastFacing()
+    {
+        return lastFacing;
+    }
 }

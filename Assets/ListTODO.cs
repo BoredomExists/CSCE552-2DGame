@@ -4,8 +4,8 @@ public class ListTODO : MonoBehaviour
 {
     /*
     * Player Animations
-    * Player Hitboxes
-    * Player Abilities
+    * Player Hitboxes (Projectile)
+    * Player Abilities (GL, RW Done)
     * Enemy Animation
     * Enemy Hitboxes (Final Boss)
     * Enemy Health

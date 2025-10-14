@@ -45,7 +45,7 @@ public class HealthSystem : MonoBehaviour
     {
         return maxHealth;
     }
-    
+
     // Gets the check if the health is changed for the player
     public bool IsHealthChanged()
     {

@@ -71,8 +71,10 @@ public class UserInput : MonoBehaviour
         if (mainCamera != null)
             if (!RoomCameraTrigger.roomEntered)
                 mainCamera.rotation = Quaternion.Lerp(mainCamera.rotation, rotationToTurnTo, rotationSpeed * Time.deltaTime);
+            else
+                mainCamera.rotation = Quaternion.identity;
         if (player != null)
-            player.rotation = Quaternion.Lerp(player.rotation, rotationToTurnTo, rotationSpeed * Time.deltaTime);
+                player.rotation = Quaternion.Lerp(player.rotation, rotationToTurnTo, rotationSpeed * Time.deltaTime);
     }
 
     void FixedUpdate()
