@@ -1,7 +1,7 @@
-using System;
+using TMPro;
 using Unity.Cinemachine;
-using Unity.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UserInput : MonoBehaviour
 {
@@ -24,6 +24,14 @@ public class UserInput : MonoBehaviour
     public Transform mainCamera;
     public Transform player;
     public float rotationSpeed = 10f;
+
+    [Header("Player UI Settings")]
+    public Image gravityIcon;
+    public Sprite gravityUp;
+    public Sprite gravityDown;
+    public Sprite gravityLeft;
+    public Sprite gravityRight;
+
 
     private Rigidbody2D rb;
     private Vector2 moveVector;
@@ -145,6 +153,7 @@ public class UserInput : MonoBehaviour
             zRotation -= 180f;
             ChangeGravity();
         }
+        ChangeGravityIcon();
     }
 
     // Creates the new gravity when the rotation is changed
@@ -159,7 +168,7 @@ public class UserInput : MonoBehaviour
         float deltaAngle = Vector2.SignedAngle(oldGravity, newGravity.normalized);
         rb.linearVelocity = RotateVector(rb.linearVelocity, deltaAngle);
     }
-    
+
     // Rotates a vector by X degrees in 2D
     private Vector2 RotateVector(Vector2 v, float degrees)
     {
@@ -167,5 +176,30 @@ public class UserInput : MonoBehaviour
         float c = Mathf.Cos(rad);
         float s = Mathf.Sin(rad);
         return new Vector2(v.x * c - v.y * s, v.x * s + v.y * c);
+    }
+
+    public void ChangeGravityIcon()
+    {
+        float z = Mathf.DeltaAngle(0f, player.eulerAngles.z);
+        int snapped = Mathf.RoundToInt(z / 90f) * 90;
+        if (snapped == -180) snapped = 180;
+        switch (snapped)
+        {
+            case 0:
+                gravityIcon.sprite = gravityDown;
+                break;
+
+            case 90:
+                gravityIcon.sprite = gravityRight;
+                break;
+
+            case 180:
+                gravityIcon.sprite = gravityUp;
+                break;
+
+            case -90:
+                gravityIcon.sprite = gravityLeft;
+                break;
+        }
     }
 }
