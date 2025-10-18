@@ -24,15 +24,24 @@ public class PlayerAbilities : MonoBehaviour
     public Color ringActiveColor = new Color(0f, 1f, 1f, 0.9f);
 
     private Rigidbody2D rb;
+    private readonly Collider2D[] repulseHits = new Collider2D[32];
+    private ContactFilter2D repulseFilter;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         userInput = GetComponent<UserInput>();
-        aoe = GetComponent<CircleCollider2D>();
+        aoe = GetComponentInChildren<CircleCollider2D>();
         aoe.isTrigger = true;
         aoe.enabled = false;
+
+        repulseFilter = new ContactFilter2D
+        {
+            useLayerMask = true,
+            layerMask = projectileLayer,
+            useTriggers = true
+        };
 
         if (!repulseVisual && aoe)
         {
@@ -96,7 +105,27 @@ public class PlayerAbilities : MonoBehaviour
     {
         lastRepulse = Time.time;
         aoe.enabled = true;
-        yield return new WaitForSeconds(repulsorDuration);
+
+        float end = Time.time + repulsorDuration;
+        while (Time.time < end)
+        {
+            int count = aoe.Overlap(repulseFilter, repulseHits);
+            for (int i = 0; i < count; i++)
+            {
+                var hit = repulseHits[i];
+                if (!hit) continue;
+                var prb = hit.attachedRigidbody;
+                if (!prb) continue;
+
+                Vector2 norm = (prb.position - (Vector2)transform.position).normalized;
+
+                if (Vector2.Dot(prb.linearVelocity, norm) < 0f)
+                {
+                    prb.linearVelocity = Vector2.Reflect(prb.linearVelocity, norm);
+                }
+            }
+            yield return null;
+        }
         aoe.enabled = false;
     }
 

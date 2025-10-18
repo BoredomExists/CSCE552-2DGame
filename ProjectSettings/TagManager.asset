@@ -8,6 +8,7 @@ TagManager:
   - Cover
   - Wall
   - Enemy
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - UI
   - Ground
   - Projectile
-  - 
+  - PlayerAOE
   - 
   - 
   - 
@@ -50,6 +51,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1221256949
+    locked: 0
+  - name: Projectile
+    uniqueID: 3750069805
     locked: 0
   - name: Default
     uniqueID: 0

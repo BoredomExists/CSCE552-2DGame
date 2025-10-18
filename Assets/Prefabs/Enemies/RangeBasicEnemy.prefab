@@ -123,6 +123,8 @@ GameObject:
   - component: {fileID: 7342680090027355607}
   - component: {fileID: 5098017570485191383}
   - component: {fileID: 3171370629360925759}
+  - component: {fileID: 5727037436556229963}
+  - component: {fileID: -6298043298670255126}
   m_Layer: 0
   m_Name: RangeBasicEnemy
   m_TagString: Enemy
@@ -247,6 +249,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+--- !u!114 &5727037436556229963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4824079402045958706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c3d458705c7f474a85509bdefd7c929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hand: {fileID: 7665242613665013177}
+  otherHand: {fileID: 0}
+  projectilePrefab: {fileID: 2183506007094444696, guid: e6c63c74b716303409a9bae424a4414a, type: 3}
+  target: {fileID: 0}
+  aggressionRadius: 8
+  attackRange: 10
+  fireCooldown: 1.5
+  damage: 10
+--- !u!114 &-6298043298670255126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4824079402045958706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba920b360ab77b4aab2a55651fd50fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barPrefab: {fileID: 5445459549343617046, guid: 2d1427046a498be4cb82b8befb8dd7e8, type: 3}
+  UICanvas: {fileID: 0}
+  worldOffset: {x: 0, y: 1.5, z: 0}
 --- !u!1 &5871659599243651666
 GameObject:
   m_ObjectHideFlags: 0

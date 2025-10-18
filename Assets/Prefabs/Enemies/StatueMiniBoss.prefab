@@ -154,6 +154,8 @@ GameObject:
   - component: {fileID: 1413056651045111256}
   - component: {fileID: -37312289636309984}
   - component: {fileID: 7564128692816742378}
+  - component: {fileID: 7323310224589266390}
+  - component: {fileID: -3940433664888005943}
   m_Layer: 0
   m_Name: StatueMiniBoss
   m_TagString: Enemy
@@ -279,6 +281,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 150
   currentHealth: 0
+--- !u!114 &7323310224589266390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916396527685918236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba920b360ab77b4aab2a55651fd50fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barPrefab: {fileID: 5445459549343617046, guid: 2d1427046a498be4cb82b8befb8dd7e8, type: 3}
+  UICanvas: {fileID: 0}
+  worldOffset: {x: 0, y: 1.5, z: 0}
+--- !u!114 &-3940433664888005943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2916396527685918236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c3d458705c7f474a85509bdefd7c929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hand: {fileID: 6407819391150362573}
+  otherHand: {fileID: 5454384891630792309}
+  projectilePrefab: {fileID: 2183506007094444696, guid: e6c63c74b716303409a9bae424a4414a, type: 3}
+  target: {fileID: 0}
+  aggressionRadius: 10
+  attackRange: 8
+  fireCooldown: 1
+  damage: 15
 --- !u!1 &4079768880687362718
 GameObject:
   m_ObjectHideFlags: 0

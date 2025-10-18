@@ -71,5 +71,9 @@ public class EnemyHealthBar : MonoBehaviour
     public void UpdateEnemyBar()
     {
         barSlider.value = Mathf.Clamp01((float)hs.GetCurrentHealth() / hs.GetMaxHealth());
+        if (hs.GetCurrentHealth() <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

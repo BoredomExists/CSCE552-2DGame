@@ -19,10 +19,6 @@ public class HealthSystem : MonoBehaviour
     {
         currentHealth -= dmg;
         healthChanged = true;
-        if (currentHealth <= 0)
-        {
-            Destroy(gameObject);
-        }
     }
 
     // Function to heal damage to gameobjects with the health system

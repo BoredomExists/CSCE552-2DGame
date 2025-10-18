@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8309994041887328554}
   - component: {fileID: 4864423942248041728}
   - component: {fileID: 5365313298836571657}
+  - component: {fileID: 3053813347166000886}
+  - component: {fileID: 6839160249224809562}
   m_Layer: 0
   m_Name: RangedMiniBoss
   m_TagString: Enemy
@@ -33,6 +35,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 905353747349572464}
+  - {fileID: 2258099243728382289}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &8309994041887328554
@@ -122,6 +125,72 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 150
   currentHealth: 0
+--- !u!114 &3053813347166000886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603691265006941182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba920b360ab77b4aab2a55651fd50fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barPrefab: {fileID: 5445459549343617046, guid: 2d1427046a498be4cb82b8befb8dd7e8, type: 3}
+  UICanvas: {fileID: 0}
+  worldOffset: {x: 0, y: 1.5, z: 0}
+--- !u!114 &6839160249224809562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603691265006941182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c3d458705c7f474a85509bdefd7c929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hand: {fileID: 2258099243728382289}
+  otherHand: {fileID: 0}
+  projectilePrefab: {fileID: 2183506007094444696, guid: e6c63c74b716303409a9bae424a4414a, type: 3}
+  target: {fileID: 0}
+  aggressionRadius: 10
+  attackRange: 8
+  fireCooldown: 1
+  damage: 20
+--- !u!1 &3157985098478891034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2258099243728382289}
+  m_Layer: 0
+  m_Name: Fire
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2258099243728382289
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3157985098478891034}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.1, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2888867677602633897}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7499208174879329825
 GameObject:
   m_ObjectHideFlags: 0

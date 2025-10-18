@@ -98,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 6206030650132766010}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f28e97dbcfea75c41896a3b2d9830926, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 359509070522949146}
   - component: {fileID: 8566743754280975556}
   - component: {fileID: 7195112325113098729}
+  - component: {fileID: -4656794748336596980}
   m_Layer: 0
   m_Name: MeleeMiniBoss
   m_TagString: Enemy
@@ -246,3 +247,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 150
   currentHealth: 0
+--- !u!114 &-4656794748336596980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8174790393198983958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba920b360ab77b4aab2a55651fd50fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barPrefab: {fileID: 5445459549343617046, guid: 2d1427046a498be4cb82b8befb8dd7e8, type: 3}
+  UICanvas: {fileID: 0}
+  worldOffset: {x: 0, y: 1.5, z: 0}
