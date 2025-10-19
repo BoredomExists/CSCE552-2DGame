@@ -2,7 +2,6 @@ using System.Collections;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -43,6 +42,7 @@ public class LoadingScreen : MonoBehaviour
         loadingScreenSlider.value = 1f;
         loadingText.text = "100%";
 
+        DisableLevelGO();
         loadingScreen.SetActive(false);
         mainMenu.SetActive(true);
     }
@@ -69,8 +69,27 @@ public class LoadingScreen : MonoBehaviour
         var level = SceneManager.GetSceneByName(levelSceneName);
         if (level.IsValid())
         {
+            EnableLevelGO();
             SceneManager.SetActiveScene(level);
             SceneManager.UnloadSceneAsync(menuSceneName);
+        }
+    }
+
+    private void DisableLevelGO()
+    {
+        var GOs = SceneManager.GetSceneByName(levelSceneName).GetRootGameObjects();
+        for (int i = 0; i < GOs.Length; i++)
+        {
+            if(GOs[i]) GOs[i].SetActive(false);
+        }
+    }
+
+    public void EnableLevelGO()
+    {
+        var GOs = SceneManager.GetSceneByName(levelSceneName).GetRootGameObjects();
+        for (int i = 0; i < GOs.Length; i++)
+        {
+            if(GOs[i]) GOs[i].SetActive(true);
         }
     }
 }
