@@ -5,6 +5,7 @@ public class ProjectileEnemy : MonoBehaviour
     [Header("References")]
     public Transform hand;
     public Transform otherHand; // For Mini-Boss Projectile 
+    public Transform flyingBossHand; // For Three armed flying enemy
     public GameObject projectilePrefab;
     public Transform target;
 
@@ -46,6 +47,12 @@ public class ProjectileEnemy : MonoBehaviour
             var projGO2 = Instantiate(projectilePrefab, otherHand.position, Quaternion.identity);
             var proj2 = projGO2.GetComponent<Projectile>();
             if (proj2) proj2.Fire(direction, damage);
+        }
+        if (flyingBossHand)
+        {
+            var projGO3 = Instantiate(projectilePrefab, flyingBossHand.position, Quaternion.identity);
+            var proj3 = projGO3.GetComponent<Projectile>();
+            if (proj3) proj3.Fire(direction, damage);
         }
     }
 }
