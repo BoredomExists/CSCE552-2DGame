@@ -5,14 +5,14 @@ public class ListTODO : MonoBehaviour
     /*
     * Player Animations - Still need to get projectile animation going
     * Player Hitboxes (Projectile) - Projectile enemy has projectiles except final boss
-    * Player Abilities (GL, RW Done)
-    * Enemy Animation - Started (Last worked on jump mini boss)
-    * Enemy Hitboxes (Final Boss)
+    * Player Abilities (GL, RW Done) - may not include other abilities
+    * Enemy Animation - Started (Last worked on jump mini boss) - final boss
+    * Enemy Hitboxes (Final Boss) - reflected projectiles
     * Enemy Health
     * UI Elements
-    * Win/Lose/Pause-Settings Screen - Win, Lose Screen need theme adjustments
-    * Level Design (Doors, Debris, etc.)
-    * Key System To Unlock Doors
+    * Pause-Settings Screen
+    * Level Design - Debris and what debris does for the level
+    * Key System To Unlock Doors - Code final boss door function when having two keys
     * Game Audio
     * Game Music
     */

@@ -10,6 +10,8 @@ TagManager:
   - Enemy
   - Projectile
   - Goal
+  - HitBox
+  - Key
   layers:
   - Default
   - TransparentFX

@@ -46,9 +46,7 @@ public class PlayerAnimator : MonoBehaviour
         col.offset = lastFacing < 0 ? new Vector2(-0.03f, -0.05f) : new Vector2(0.03f, -0.05f);
 
 
-        
-        PlayerAttack();
-        animator.SetBool("isJumping", !isGrounded);                                            // Starts the jumping animation when the player is in the air
+        //animator.SetBool("isJumping", !isGrounded);                                            // Starts the jumping animation when the player is in the air
         animator.SetInteger("lastFacing", lastFacing);
         if (isGrounded)
         {
@@ -60,6 +58,7 @@ public class PlayerAnimator : MonoBehaviour
             animator.SetBool("isWalkingRight", false);
             animator.SetBool("isWalkingLeft", false);
         }
+        PlayerAttack();
     }
 
     

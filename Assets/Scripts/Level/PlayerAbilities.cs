@@ -122,6 +122,7 @@ public class PlayerAbilities : MonoBehaviour
                 if (Vector2.Dot(prb.linearVelocity, norm) < 0f)
                 {
                     prb.linearVelocity = Vector2.Reflect(prb.linearVelocity, norm);
+                    prb.tag = "Player";
                 }
             }
             yield return null;
