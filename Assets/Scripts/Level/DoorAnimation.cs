@@ -10,24 +10,23 @@ public class DoorAnimation : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         animator.SetBool("doorClosed", true);
+        animator.SetBool("isOpening", false);
         colBox.gameObject.SetActive(true);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("HitBox")) return;
+        if (!collision.CompareTag("Player")) return;
         if (collision.CompareTag("Player"))
         {
-            animator.SetBool("doorClosed", false);
             animator.SetBool("isOpening", true);
         }
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("HitBox")) return;
+        if (!collision.CompareTag("Player")) return;
         animator.SetBool("isOpening", false);
-        animator.SetBool("doorClosed", true);
     }
 
     public void EnableDoorCollider()
