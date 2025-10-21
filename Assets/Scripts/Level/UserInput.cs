@@ -31,15 +31,24 @@ public class UserInput : MonoBehaviour
     public Sprite gravityDown;
     public Sprite gravityLeft;
     public Sprite gravityRight;
+    public Image weaponType;
+    public Sprite swordSprite;
+    public Sprite gauntletSprite;
+
+    [Header("Weapon Settings")]
+    public Transform projPOS;
+    public GameObject projectilePrefab;
+    public float projSpeed = 10f;
+    public int projDamage = 20;
 
 
     private Rigidbody2D rb;
     private Vector2 moveVector;
     private float lastGroundSpeed;
-
     private float zRotation = 0f;
-
     private CinemachineCamera ccam;
+    private Camera activeCam;
+    private bool isSwordUser = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -49,6 +58,8 @@ public class UserInput : MonoBehaviour
         ccam = FindFirstObjectByType<CinemachineCamera>();
         if (ccam != null)
             mainCamera = ccam.transform;
+
+        activeCam = Camera.main;
     }
 
     // Update is called once per frame
@@ -69,6 +80,13 @@ public class UserInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S) && !isGrounded)
             rb.linearVelocity += Physics2D.gravity.normalized * fastFallSpeed;
 
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            isSwordUser = !isSwordUser;
+            SwapWeapon();
+        }
+
+
         lastGroundSpeed = (Input.GetKey(KeyCode.LeftShift) && isGrounded) ? sprintSpeed : moveSpeed;               // Determines if the player is sprinting or not
 
         ChangeRotation();
@@ -82,7 +100,7 @@ public class UserInput : MonoBehaviour
             else
                 mainCamera.rotation = Quaternion.identity;
         if (player != null)
-                player.rotation = Quaternion.Lerp(player.rotation, rotationToTurnTo, rotationSpeed * Time.deltaTime);
+            player.rotation = Quaternion.Lerp(player.rotation, rotationToTurnTo, rotationSpeed * Time.deltaTime);
     }
 
     void FixedUpdate()
@@ -201,5 +219,38 @@ public class UserInput : MonoBehaviour
                 gravityIcon.sprite = gravityLeft;
                 break;
         }
+    }
+
+    private void SwapWeapon()
+    {
+        if (isSwordUser)
+        {
+            weaponType.sprite = swordSprite;
+            projPOS.gameObject.SetActive(false);
+        }
+        else
+        {
+            weaponType.sprite = gauntletSprite;
+            projPOS.gameObject.SetActive(true);
+        }
+    }
+
+    public void ShootGauntlet()
+    {
+        Camera cam = (mainCamera != null) ? activeCam : Camera.main;
+
+        Vector3 mouseScreen = Input.mousePosition;
+        Vector3 screenPointWithZ = new Vector3(mouseScreen.x, mouseScreen.y, cam.WorldToScreenPoint(projPOS.position).z);
+        Vector3 mouseWorld = cam.ScreenToWorldPoint(screenPointWithZ);
+
+        Vector2 direction = (mouseWorld - projPOS.position).normalized;
+        var projGO = Instantiate(projectilePrefab, projPOS.position, Quaternion.identity);
+        var projComp = projGO.GetComponent<Projectile>();
+        projComp.Fire(direction, projDamage, Projectile.ProjectileOwner.Player);
+    }
+
+    public bool GetSwordUser()
+    {
+        return isSwordUser;
     }
 }

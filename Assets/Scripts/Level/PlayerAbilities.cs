@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class PlayerAbilities : MonoBehaviour
@@ -22,6 +23,10 @@ public class PlayerAbilities : MonoBehaviour
     public int ringSegments = 48;
     public float ringWidth = 0.05f;
     public Color ringActiveColor = new Color(0f, 1f, 1f, 0.9f);
+
+    [Header("UI Settings")]
+    public TMP_Text glCooldownText;
+    public TMP_Text rwCooldownText;
 
     private Rigidbody2D rb;
     private readonly Collider2D[] repulseHits = new Collider2D[32];
@@ -62,6 +67,7 @@ public class PlayerAbilities : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateCooldownUI();
         if (Input.GetKeyDown(KeyCode.Z) && Time.time >= lastLaunch + GLCooldown)
         {
             jumpReady = true;
@@ -119,10 +125,13 @@ public class PlayerAbilities : MonoBehaviour
 
                 Vector2 norm = (prb.position - (Vector2)transform.position).normalized;
 
+                var proj = prb.GetComponent<Projectile>();
+                if (proj.owner == Projectile.ProjectileOwner.Player) continue;
+
                 if (Vector2.Dot(prb.linearVelocity, norm) < 0f)
                 {
                     prb.linearVelocity = Vector2.Reflect(prb.linearVelocity, norm);
-                    prb.tag = "Player";
+                    proj.SetProjectileOwner(Projectile.ProjectileOwner.Player);
                 }
             }
             yield return null;
@@ -159,5 +168,23 @@ public class PlayerAbilities : MonoBehaviour
             Vector2 projectileTarget = (rb.position - (Vector2)transform.position).normalized;
             rb.linearVelocity = Vector2.Reflect(rb.linearVelocity, projectileTarget);
         }
+    }
+
+    private void UpdateCooldownUI()
+    {
+        float glElapsed = Time.time - lastLaunch;
+        float glRemaining = Mathf.Max(0, GLCooldown - glElapsed);
+        bool glReady = glElapsed >= GLCooldown;
+
+        if (glReady) glCooldownText.text = "Ready";
+        else glCooldownText.text = (glRemaining > 1f) ? Mathf.CeilToInt(glRemaining).ToString() : glRemaining.ToString("F1");
+
+        float rwElapsed = Time.time - lastRepulse;
+        float rwRemaining = Mathf.Max(0f, repulsorCooldown - rwElapsed);
+        bool rwReady = rwElapsed >= repulsorCooldown;
+
+        if (rwReady) rwCooldownText.text = "Ready";
+        else rwCooldownText.text = (rwRemaining > 1f) ? Mathf.CeilToInt(rwRemaining).ToString() : rwRemaining.ToString("F1");
+
     }
 }

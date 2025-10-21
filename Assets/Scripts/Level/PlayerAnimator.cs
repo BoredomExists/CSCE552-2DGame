@@ -7,6 +7,7 @@ public class PlayerAnimator : MonoBehaviour
     [Header("Graphics")]
     public Transform spriteGO;
     public SpriteRenderer spriteRender;
+    public Sprite projSprite;
 
     [Header("Animation")]
     public Animator animator;
@@ -14,6 +15,7 @@ public class PlayerAnimator : MonoBehaviour
 
     [Header("Attack Settings")]
     public float attackCooldown = 0.5f;
+    public Transform projStart;
 
     public UserInput userInput;
 
@@ -44,7 +46,7 @@ public class PlayerAnimator : MonoBehaviour
 
         CapsuleCollider2D col = gameObject.GetComponent<CapsuleCollider2D>();
         col.offset = lastFacing < 0 ? new Vector2(-0.03f, -0.05f) : new Vector2(0.03f, -0.05f);
-
+        projStart.localPosition = lastFacing < 0 ? new Vector2(-.14f, .1f) : new Vector2(.14f, .1f);
 
         //animator.SetBool("isJumping", !isGrounded);                                            // Starts the jumping animation when the player is in the air
         animator.SetInteger("lastFacing", lastFacing);
@@ -61,19 +63,28 @@ public class PlayerAnimator : MonoBehaviour
         PlayerAttack();
     }
 
-    
+
 
     private void PlayerAttack()
     {
+        if (userInput.GetSwordUser()) animator.SetBool("isGauntlet", false);
+        else animator.SetBool("isGauntlet", true);
         // Starts the player attacking animation
         if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time >= lastAtkTime + attackCooldown)
         {
             lastAtkTime = Time.time;
 
-            if (lastFacing > 0)
-                animator.SetTrigger("isAttacking");
+            if (userInput.GetSwordUser())
+            {
+                if (lastFacing > 0)
+                    animator.SetTrigger("isAttacking");
+                else
+                    animator.SetTrigger("isAttackingLeft");
+            }
             else
-                animator.SetTrigger("isAttackingLeft");
+            {
+                userInput.ShootGauntlet();
+            }
         }
     }
 

@@ -41,18 +41,18 @@ public class ProjectileEnemy : MonoBehaviour
         lastAtkTime = Time.time;
         var projGO = Instantiate(projectilePrefab, hand.position, Quaternion.identity);
         var proj = projGO.GetComponent<Projectile>();
-        if (proj) proj.Fire(direction, damage);
+        if (proj) proj.Fire(direction, damage, Projectile.ProjectileOwner.Enemy);
         if (otherHand)
         {
             var projGO2 = Instantiate(projectilePrefab, otherHand.position, Quaternion.identity);
             var proj2 = projGO2.GetComponent<Projectile>();
-            if (proj2) proj2.Fire(direction, damage);
+            if (proj2) proj2.Fire(direction, damage, Projectile.ProjectileOwner.Enemy);
         }
         if (flyingBossHand)
         {
             var projGO3 = Instantiate(projectilePrefab, flyingBossHand.position, Quaternion.identity);
             var proj3 = projGO3.GetComponent<Projectile>();
-            if (proj3) proj3.Fire(direction, damage);
+            if (proj3) proj3.Fire(direction, damage, Projectile.ProjectileOwner.Enemy);
         }
     }
 }
