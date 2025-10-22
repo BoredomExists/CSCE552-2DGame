@@ -12,6 +12,8 @@ TagManager:
   - Goal
   - HitBox
   - Key
+  - BossDoor
+  - Door
   layers:
   - Default
   - TransparentFX

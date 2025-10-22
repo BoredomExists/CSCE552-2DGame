@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: 50c1f2fee992d4e458f1cda74b26ee13
+guid: 0c15be9320d943346a2475481ffbc979
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 419608088948533731
-    second: door2_locked_0
+      213: 3204290344396990444
+    second: sprite_sheet (3)_0
+  - first:
+      213: 7332862405812815151
+    second: sprite_sheet (3)_1
+  - first:
+      213: -9136718100887295082
+    second: sprite_sheet (3)_2
+  - first:
+      213: 1677797932986182739
+    second: sprite_sheet (3)_3
+  - first:
+      213: -1327541238063928221
+    second: sprite_sheet (3)_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,40 +108,115 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: door2_locked_0
+      name: BossFire_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 29
+        y: 100
         width: 100
-        height: 71
+        height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 24, y: 20, z: 25, w: 10}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3e968ae655fb2d500800000000000000
-      internalID: 419608088948533731
+      spriteID: 87b0685773172b34f93c410587d041cf
+      internalID: 657476148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossFire_1
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 100
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 24, y: 20, z: 25, w: 10}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5238fdc60988e534b982a0b8d46516f3
+      internalID: 1040620963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossFire_2
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 100
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 24, y: 20, z: 25, w: 10}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f393d938085a2b24fb4649cb6bff70db
+      internalID: 1396633918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossFire_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 24, y: 20, z: 25, w: 10}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4294a4192cd2fa64784a3985bce55dbd
+      internalID: 218718862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossFire_4
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 0
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 24, y: 20, z: 25, w: 10}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfa2136c71058ee43bd4514b7ee5dc79
+      internalID: -1363735784
       vertices: []
       indices: 
       edges: []
@@ -138,7 +225,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 96f96f650499b9443a969c38f64f6f5c
+    spriteID: f6ae4038d8f03f849b8751ad270cdae1
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +235,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      door2_locked_0: 419608088948533731
+      BossFire_0: 657476148
+      BossFire_1: 1040620963
+      BossFire_2: 1396633918
+      BossFire_3: 218718862
+      BossFire_4: -1363735784
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -20,6 +20,7 @@ public class DoorAnimation : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             animator.SetBool("isOpening", true);
+            animator.SetBool("doorClosed", false);
         }
     }
 
