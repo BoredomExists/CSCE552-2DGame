@@ -1,3 +1,4 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class RoomCameraTrigger : MonoBehaviour
     public float targetOrthoSize = 12f;
     public float transitionSpeed = 2f;
     public static bool roomEntered;
+
+    private Coroutine zoomCoroutine;
 
     private CinemachineCamera cam;
     private CinemachinePositionComposer camPos;
@@ -44,8 +47,11 @@ public class RoomCameraTrigger : MonoBehaviour
         }
 
         roomEntered = true;
-        StopAllCoroutines();
-        StartCoroutine(Zoom(targetOrthoSize));
+
+        if (zoomCoroutine != null) StopCoroutine(zoomCoroutine);
+
+        if (isActiveAndEnabled && gameObject.activeInHierarchy)
+            zoomCoroutine = StartCoroutine(Zoom(targetOrthoSize));
     }
 
     void OnTriggerExit2D(Collider2D collision)
@@ -67,12 +73,13 @@ public class RoomCameraTrigger : MonoBehaviour
     {
         if (cam == null) yield break;
 
-        while (Mathf.Abs(cam.Lens.OrthographicSize - zoom) > 0.01f)
+        while (isActiveAndEnabled && gameObject.activeInHierarchy && Mathf.Abs(cam.Lens.OrthographicSize - zoom) > 0.01f)
         {
             cam.Lens.OrthographicSize = Mathf.Lerp(
                 cam.Lens.OrthographicSize, zoom, Time.deltaTime * transitionSpeed);
             yield return null;
         }
         cam.Lens.OrthographicSize = zoom;
+        zoomCoroutine = null;
     }
 }

@@ -153,22 +153,22 @@ public class UserInput : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            zRotation += 90f;
+            zRotation = 90f;
             ChangeGravity();
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            zRotation -= 90f;
+            zRotation = -90f;
             ChangeGravity();
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            zRotation += 180f;
+            zRotation = 180f;
             ChangeGravity();
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            zRotation -= 180f;
+            zRotation = 0f;
             ChangeGravity();
         }
         ChangeGravityIcon();

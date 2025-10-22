@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class LoadingScreen : MonoBehaviour
 {
-    public string levelSceneName = "Level";
+    public static string levelSceneName = "Level";
 
     public GameObject loadingScreen;
     public GameObject mainMenu;
@@ -75,7 +75,8 @@ public class LoadingScreen : MonoBehaviour
         }
     }
 
-    private void DisableLevelGO()
+    
+    public static void DisableLevelGO()
     {
         var GOs = SceneManager.GetSceneByName(levelSceneName).GetRootGameObjects();
         for (int i = 0; i < GOs.Length; i++)
@@ -89,7 +90,7 @@ public class LoadingScreen : MonoBehaviour
         var GOs = SceneManager.GetSceneByName(levelSceneName).GetRootGameObjects();
         for (int i = 0; i < GOs.Length; i++)
         {
-            if(GOs[i]) GOs[i].SetActive(true);
+            if (GOs[i]) GOs[i].SetActive(true);
         }
     }
 }
