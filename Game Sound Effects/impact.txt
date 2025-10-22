@@ -72,6 +72,3 @@ UI (User Interface)
 
      Inventory (Grab Item): grabItem.wav
 
-Music
-
-     Main Menu Music: mainmenu.wav
