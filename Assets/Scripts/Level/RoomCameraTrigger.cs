@@ -1,30 +1,34 @@
-using System;
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 
+/// <summary>
+/// Manages the camera when entering and leaving rooms
+/// </summary>
 public class RoomCameraTrigger : MonoBehaviour
 {
     [Header("Camera Framing")]
-    public Transform roomAnchor;         // place this at the room center (or wherever you want the camera to sit around)
-    public Vector2  flatOffset = Vector2.zero; // flat offset relative to roomAnchor (NOT the player)
-    public float targetOrthoSize = 12f;
-    public float transitionSpeed = 2f;
-    public static bool roomEntered;
+    public Transform roomAnchor;         // Anchor for the camera to view it at a specific offset
+    public Vector2 flatOffset = Vector2.zero; // flat offset relative to roomAnchor
+    public float targetOrthoSize = 12f;     // Default size for rooms
+    public float transitionSpeed = 2f;      // Default speed
+    public static bool roomEntered;         // Boolean to determine if the player has entered a room or not
 
-    private Coroutine zoomCoroutine;
+    private Coroutine zoomCoroutine;        // Coroutine for changing the zoom of the camera
 
-    private CinemachineCamera cam;
-    private CinemachinePositionComposer camPos;
-    private Transform originalFollowTarget;
+    private CinemachineCamera cam;          // Cinemachine Camera
+    private CinemachinePositionComposer camPos; // Position composition for Cinemachine Camera
+    private Transform originalFollowTarget;     // Transform of the player for camera
 
     void Start()
     {
-        cam = FindFirstObjectByType<CinemachineCamera>();
-        camPos = FindFirstObjectByType<CinemachinePositionComposer>();
+        cam = FindFirstObjectByType<CinemachineCamera>();                   // Gets the camera
+        camPos = FindFirstObjectByType<CinemachinePositionComposer>();      // Gets the position composition of the camera
         if (cam != null)
             originalFollowTarget = cam.Follow;
     }
 
+    // Check if the player enters a room
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;
@@ -48,16 +52,19 @@ public class RoomCameraTrigger : MonoBehaviour
 
         roomEntered = true;
 
+        // Changes the camera POV to be focused on the room anchor to view the whole room
         if (zoomCoroutine != null) StopCoroutine(zoomCoroutine);
 
         if (isActiveAndEnabled && gameObject.activeInHierarchy)
             zoomCoroutine = StartCoroutine(Zoom(targetOrthoSize));
     }
 
+    // Checks if the player exits a room
     void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;
 
+        // Sets the camera to focus back on the player
         if (camPos != null)
             camPos.TargetOffset = Vector2.zero;
 
@@ -65,11 +72,14 @@ public class RoomCameraTrigger : MonoBehaviour
             cam.Follow = originalFollowTarget;
 
         roomEntered = false;
+
+        // "Resets" the camera when focusing back on the player
         StopAllCoroutines();
         StartCoroutine(Zoom(7f));
     }
 
-    System.Collections.IEnumerator Zoom(float zoom)
+    // Enumerator to change the zoom of the camera depending on a player entering and leaving a room
+    IEnumerator Zoom(float zoom)
     {
         if (cam == null) yield break;
 

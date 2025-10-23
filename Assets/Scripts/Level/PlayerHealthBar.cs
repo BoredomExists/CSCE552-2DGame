@@ -3,25 +3,30 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Manages the UI Element representing the player health bar
+/// </summary>
 public class PlayerHealthBar : MonoBehaviour
 {
-    public Animator animator;
-    public HealthSystem hs;
-    public Slider slider;
-    public TMP_Text text;
+    [Header("References")]
+    public Animator animator;       // Animator of Player
+    public HealthSystem hs;         // Health System of Player
+    public Slider slider;           // Slider of Health Bar
+    public TMP_Text text;           // Health Points of Health Bar
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        hs = GetComponent<HealthSystem>();
-        UpdateUI();
+        hs = GetComponent<HealthSystem>();              // Gets the player health system
+        UpdateUI();                                     // Updates the UI of the Health bar
 
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();  // Gets animator of the player sprite
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Checks if the health has changed, if so Update the UI
         if (hs.IsHealthChanged())
         {
             UpdateUI();
@@ -31,19 +36,23 @@ public class PlayerHealthBar : MonoBehaviour
             }
         }
 
+        /**
         if (Input.GetKeyDown(KeyCode.E))
         {
             hs.Heal(100);
             UpdateUI();
         }
+        */
     }
 
+    // Updates the slider and text of the player health bar
     private void UpdateUI()
     {
         slider.value = (float)hs.GetCurrentHealth() / hs.GetMaxHealth();
         text.text = hs.GetCurrentHealth() + " / " + hs.GetMaxHealth();
     }
 
+    // Animation for when the player's health == 0
     IEnumerator PlayerDeath()
     {
         animator.SetTrigger("isDead");

@@ -1,72 +1,74 @@
-using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.UI;
 
+/// <summary>
+/// Manages the Inputs that the user can give the player
+/// </summary>
 public class UserInput : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float moveSpeed = 5f;
-    public float sprintSpeed = 12f;
-    public float jumpForce = 10f;
+    public float moveSpeed = 5f;                        // Move speed of the player
+    public float sprintSpeed = 12f;                     // Sprint Speed of the player
+    public float jumpForce = 10f;                       // Jump Force of the player for jumping
 
     [Header("Ground Settings")]
-    public Transform groundCheck;
-    public float groundCheckRadius = 0.2f;
+    public Transform groundCheck;                       // Check to see if the player is on the "ground"
+    public float groundCheckRadius = 0.2f;              // Extra check in case the groundCheck may not be interacting with the ground
     public LayerMask ground;
     public bool isGrounded;
 
     [Header("Air Settings")]
-    public float airSpeed = 20f;
-    public float fastFallSpeed = 20f;
+    public float airSpeed = 20f;                        // Move speed of player when in the air
+    public float fastFallSpeed = 20f;                   // How fast the player falls down when pressing KeyCode.S
 
     [Header("Camera Settings")]
-    public Transform mainCamera;
-    public Transform player;
-    public float rotationSpeed = 10f;
+    public Transform mainCamera;                        // Main Camera that focuses on the player or room anchor when entered
+    public Transform player;                            // Player
+    public float rotationSpeed = 10f;                   // How fast the player rotates to new gravity field
 
     [Header("Player UI Settings")]
-    public Image gravityIcon;
-    public Sprite gravityUp;
+    public Image gravityIcon;                           // Gravity Icon Object to change sprite
+    public Sprite gravityUp;                            // Gravity direction sprites to show the user the current direction of gravity
     public Sprite gravityDown;
     public Sprite gravityLeft;
     public Sprite gravityRight;
-    public Image weaponType;
-    public Sprite swordSprite;
-    public Sprite gauntletSprite;
+    public Image weaponType;                            // Weapon Type Image that changes based on weapon mode
+    public Sprite swordSprite;                          // Changes sprite to sword when in sword mode
+    public Sprite gauntletSprite;                       // Changes sprite to gauntlet when in gauntlet mode
 
     [Header("Weapon Settings")]
-    public int playerDamage = 30;
-    public Transform projPOS;
-    public GameObject projectilePrefab;
-    public float projSpeed = 10f;
+    public int playerDamage = 30;                       // Damage player can do
+    public Transform projPOS;                           // Starting Position of projectile
+    public GameObject projectilePrefab;                 // Prefab of player projectile
+    public float projSpeed = 15f;                       // Projectile Speed
 
 
     private Rigidbody2D rb;
-    private Vector2 moveVector;
-    private float lastGroundSpeed;
-    private float zRotation = 0f;
-    private CinemachineCamera ccam;
-    private Camera activeCam;
-    private bool isSwordUser = true;
+    private Vector2 moveVector;                         // Vector in which direction the player can move
+    private float lastGroundSpeed;                      // Check the ground speed to manage air momentum
+    private float zRotation = 0f;                       // Sets rotation of camera to 0 by default
+    private CinemachineCamera ccam;                     // Cinemachine Camera
+    private Camera activeCam;                           // Main Camera
+    private bool isSwordUser = true;                    // Starting mode is Sword
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        lastGroundSpeed = moveSpeed;
-
-        ccam = FindFirstObjectByType<CinemachineCamera>();
+        rb = GetComponent<Rigidbody2D>();                       // Gets the rigidbody
+        lastGroundSpeed = moveSpeed;                            // Sets last ground speed to move speed
+    
+        ccam = FindFirstObjectByType<CinemachineCamera>();      // Gets Cinemachine Camera
         if (ccam != null)
             mainCamera = ccam.transform;
 
-        activeCam = Camera.main;
+        activeCam = Camera.main;                                // Sets the active cam to the main camera
     }
 
     // Update is called once per frame
     void Update()
     {
-        isGrounded = CheckIsGrounded();
+        isGrounded = CheckIsGrounded();                                                                             // Check if the user is grounded
         float moveX = 0f;
         if (Input.GetKey(KeyCode.A)) moveX = -1f;                                                                   // Check if the player is moving left
         if (Input.GetKey(KeyCode.D)) moveX = 1f;                                                                    // Check if the player is moving right        
@@ -81,6 +83,7 @@ public class UserInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S) && !isGrounded)
             rb.linearVelocity += Physics2D.gravity.normalized * fastFallSpeed;
 
+        // Swap weapon modes
         if (Input.GetKeyDown(KeyCode.V))
         {
             isSwordUser = !isSwordUser;
@@ -90,8 +93,10 @@ public class UserInput : MonoBehaviour
 
         lastGroundSpeed = (Input.GetKey(KeyCode.LeftShift) && isGrounded) ? sprintSpeed : moveSpeed;               // Determines if the player is sprinting or not
 
+        // Changes rotation settings based on arrow key input
         ChangeRotation();
 
+        // Sets the rotation direction to turn to
         Quaternion rotationToTurnTo = Quaternion.Euler(0f, 0f, zRotation);
 
         // Changes the camera and player rotation
@@ -197,6 +202,7 @@ public class UserInput : MonoBehaviour
         return new Vector2(v.x * c - v.y * s, v.x * s + v.y * c);
     }
 
+    // Changes the gravity icon based on direction of gravity
     public void ChangeGravityIcon()
     {
         float z = Mathf.DeltaAngle(0f, player.eulerAngles.z);
@@ -222,6 +228,7 @@ public class UserInput : MonoBehaviour
         }
     }
 
+    // Swaps weapon mode
     private void SwapWeapon()
     {
         if (isSwordUser)
@@ -236,6 +243,7 @@ public class UserInput : MonoBehaviour
         }
     }
 
+    // Shoots gauntlet function when in gauntlet mode
     public void ShootGauntlet()
     {
         Camera cam = (mainCamera != null) ? activeCam : Camera.main;
@@ -250,11 +258,13 @@ public class UserInput : MonoBehaviour
         projComp.Fire(direction, playerDamage, Projectile.ProjectileOwner.Player);
     }
 
+    // Gets if the player is in sword mode
     public bool GetSwordUser()
     {
         return isSwordUser;
     }
 
+    // Gets and set the player damage (Meant for Secret 🤫)
     public int GetDamage()
     {
         return playerDamage;

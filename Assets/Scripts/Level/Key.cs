@@ -1,15 +1,18 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 
+/// <summary>
+/// Key Manager for the UI elements representing the keys
+/// </summary>
 public class Key : MonoBehaviour
 {
     [Header("References")]
     public GameObject key1;
     public GameObject key2;
 
-    
 
+    // If the player collides with the key game object, enable the key UI element.
+    // If have a key, enable second key
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))

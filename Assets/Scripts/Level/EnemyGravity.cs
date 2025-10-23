@@ -1,18 +1,21 @@
 using UnityEngine;
 
+/// <summary>
+/// Sets the gravity of the enemy based on the rotation they are set at
+/// </summary>
 public class EnemyGravity : MonoBehaviour
 {
     // Applies the gravity based on the enemies downward direction
     [Header("Gravity Settings")]
-    public float gravityStrength = 9.81f;
+    public float gravityStrength = 9.81f;                               // Gravity Strength to apply when done changing the direction of the enemy gravity based on rotation
 
     private Rigidbody2D rb;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0f;
-        rb.freezeRotation = true;
+        rb = GetComponent<Rigidbody2D>();                                      // Gets the Rigidbody of the Enemy
+        rb.gravityScale = 0f;                                                   // Sets the gravity scale to 0
+        rb.freezeRotation = true;                                               // Freezes rotation so the enemy is not on their "side" if rotated by accident
     }
 
     void FixedUpdate()

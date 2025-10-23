@@ -2,67 +2,72 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// Manager for the animations and attacks of the Final Boss
+/// </summary>
 public class FinalBoss : MonoBehaviour
 {
     [Header("References")]
-    public Animator animator;
-    public HealthSystem hs;
-    public HealthSystem ps;
-    public BoxCollider2D leftArm;
-    public BoxCollider2D rightArm;
-    public CircleCollider2D head;
+    public Animator animator;                                               // Animator Component
+    public HealthSystem hs;                                                 // Health System of the Final Boss
+    public HealthSystem ps;                                                 // Health System of the Player
+    public BoxCollider2D leftArm;                                           // Collider hit box for the left arm
+    public BoxCollider2D rightArm;                                          // Collider hit box for the right arm
+    public CircleCollider2D head;                                           // Collider circle for the head
 
-    public GameObject bossHealthBar;
-    public Slider bossSlider;
-    public Transform fire1;
+    public GameObject bossHealthBar;                                        // UI Health Bar Game Object to enable when starting boss fight
+    public Slider bossSlider;                                               // Slider for Health Bar
+    public Transform fire1;                                                 // Firing points for when final boss is firing projectiles (6 of them)
     public Transform fire2;
     public Transform fire3;
     public Transform fire4;
     public Transform fire5;
     public Transform fire6;
-    public CircleCollider2D shockwave1;
+    public CircleCollider2D shockwave1;                                    // Trigger Circle colliders to represent the range of the slam down attack (2 for each arm)
     public CircleCollider2D shockwave2;
 
     [Header("Timing")]
-    public float delayBetweenMoves = 7f;
-    public float postAttackBuffer = .5f;
-    public float attackCooldown = 1f;
+    public float delayBetweenMoves = 7f;                                    // How long before the boss can do another move
+    public float postAttackBuffer = .5f;                                    // Delay for the animation of a move to finish
 
     [Header("Projectile")]
-    public GameObject projPrefab;
-    public int projDMG = 20;
+    public GameObject projPrefab;                                           // Prefab of the enemy projectile
+    public int projDMG = 20;                                                // The damage that the projectile will do on hit
 
     [Header("Slam Ability FX")]
-    public LineRenderer slam1Line;
-    public LineRenderer slam2Line;
-    public int ringSegments = 48;
-    public float ringWidth = 0.05f;
-    public Color ringColor = new Color(1f, 0.5f, 0.2f, 0.9f);
+    public LineRenderer slam1Line;                                          // Creates the line for the left arm slam
+    public LineRenderer slam2Line;                                          // Creates the line for the right arm
+    public int ringSegments = 48;                                           // Sets how many segments the ring will have
+    public float ringWidth = 0.05f;                                        // Sets how width of the line of the ring
+    public Color ringColor = new Color(1f, 0.5f, 0.2f, 0.9f);               // Color of the ring
 
-    private Coroutine move;
+    private Coroutine move;                                                 // Coroutine for the enemy to do one move at a time
     private Transform player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        animator = GetComponent<Animator>();
-        hs = GetComponentInParent<HealthSystem>();
-        bossHealthBar.SetActive(true);
-        bossSlider.value = Mathf.Clamp01((float)hs.GetCurrentHealth() / hs.GetMaxHealth());
-        player = GameObject.FindWithTag("Player").transform;
+        animator = GetComponent<Animator>();                                                // Gets the Animator of the Final Boss
+        hs = GetComponentInParent<HealthSystem>();                                          // Gets the HealthSystem of the Final Boss
+        bossHealthBar.SetActive(true);                                                      // Sets the boss health bar to be active
+        bossSlider.value = Mathf.Clamp01((float)hs.GetCurrentHealth() / hs.GetMaxHealth()); // Sets the value of the health bar
+        player = GameObject.FindWithTag("Player").transform;                                // Gets the player
 
-        rightArm = GetComponentsInParent<BoxCollider2D>()[0];
-        leftArm = GetComponentsInParent<BoxCollider2D>()[1];
-        head = GetComponentsInParent<CircleCollider2D>()[0];
-        shockwave1 = GetComponentsInParent<CircleCollider2D>()[1];
-        shockwave2 = GetComponentsInParent<CircleCollider2D>()[2];
+        rightArm = GetComponentsInParent<BoxCollider2D>()[0];                               // Gets the right arm hit box
+        leftArm = GetComponentsInParent<BoxCollider2D>()[1];                                // Gets the left arm hit box
+        head = GetComponentsInParent<CircleCollider2D>()[0];                                // Gets the head hit box
+        shockwave1 = GetComponentsInParent<CircleCollider2D>()[1];                          // Gets the collider representing the left arm slam attack
+        shockwave2 = GetComponentsInParent<CircleCollider2D>()[2];                          // Gets the collider representing the right arm slam attack
 
-        slam1Line = CreateSlamCircle("slam1Line", ringColor);
+        slam1Line = CreateSlamCircle("slam1Line", ringColor);                               // Creates the visual line of the slam attack for the left and right arm
         slam2Line = CreateSlamCircle("slame2Line", ringColor);
 
-        move = StartCoroutine(GetMove());
+        move = StartCoroutine(GetMove());                                                  // Starts the Coroutine for the Final Boss to do attacks
     }
 
-    private void LateUpdate() {
+    // Makes the ring is still applied to the colliders
+    private void LateUpdate()
+    {
         if (slam1Line != null && slam1Line.enabled && shockwave1 != null)
         {
             UpdateRingFromCollider(slam1Line, shockwave1);
@@ -76,13 +81,13 @@ public class FinalBoss : MonoBehaviour
 
     IEnumerator GetMove()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);                            // Buffer before starting the routine
 
         while (true)
         {
-            yield return new WaitForSeconds(delayBetweenMoves);
+            yield return new WaitForSeconds(delayBetweenMoves);         // Delay before picking a new attack
 
-            int moveNumber = Random.Range(0, 3);
+            int moveNumber = Random.Range(0, 3);                        // 0 = Shield, 1 = Fire Projectiles, 2 = Slam Attack
             switch (moveNumber)
             {
                 case 0:
@@ -97,10 +102,11 @@ public class FinalBoss : MonoBehaviour
                     animator.SetTrigger("isSlamming");
                     break;
             }
-            yield return new WaitForSeconds(postAttackBuffer);
+            yield return new WaitForSeconds(postAttackBuffer);      // Delay for animation to finish before starting routine again
         }
     }
 
+    // Creates all projectiles and fires them
     public void FireProjectiles()
     {
         var p1 = Instantiate(projPrefab, fire1.position, Quaternion.identity).GetComponent<Projectile>();
@@ -122,6 +128,7 @@ public class FinalBoss : MonoBehaviour
         p6.Fire((player.position - fire6.position).normalized, projDMG, Projectile.ProjectileOwner.Enemy);
     }
 
+    // Enables/Disables the arms and head hitbox when boss is starting/ending shield animation
     public void EnableHitBoxes()
     {
         head.enabled = true;
@@ -135,6 +142,7 @@ public class FinalBoss : MonoBehaviour
         rightArm.enabled = false;
     }
 
+    // Enables/Disables the firing points when boss is starting/ending firing animation
     public void EnableFiringPoints()
     {
         fire1.gameObject.SetActive(true);
@@ -154,6 +162,7 @@ public class FinalBoss : MonoBehaviour
         fire6.gameObject.SetActive(false);
     }
 
+    // Enables/Disables slam circle colliders when boss is starting/ending slam attack
     public void EnableSlamCircles()
     {
         shockwave1.enabled = true;
@@ -170,7 +179,6 @@ public class FinalBoss : MonoBehaviour
             slam2Line.enabled = true;
         }
     }
-
     public void DisableSlamCircles()
     {
         shockwave1.enabled = false;
@@ -180,6 +188,7 @@ public class FinalBoss : MonoBehaviour
         if (slam2Line != null) slam2Line.enabled = false;
     }
 
+    // Creates the visual for the slam attack
     private LineRenderer CreateSlamCircle(string name, Color c)
     {
         var gameOBJ = new GameObject(name);
@@ -196,8 +205,10 @@ public class FinalBoss : MonoBehaviour
         return lineRender;
     }
 
+    // Makes sure the visual stays on the circle colliders of the slam attack
     private void UpdateRingFromCollider(LineRenderer lineRender, CircleCollider2D col)
     {
+        // Sets the line renderer position and scale to the AOE Circle collider position and scale
         Vector3 center = col.transform.TransformPoint(col.offset);
         float scaleX = Mathf.Abs(col.transform.lossyScale.x);
         float scaleY = Mathf.Abs(col.transform.lossyScale.y);

@@ -1,16 +1,20 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
+
+/// <summary>
+/// Manages the collisions that player will interact with
+/// </summary>
 public class PlayerCollisions : MonoBehaviour
 {
-    // Checks the collisions of the player
-    private CinemachineCamera cam;
-    private CapsuleCollider2D playerCollider;
+    [Header("References")]
+    private CinemachineCamera cam;                    // Camera that the level is using
+    private CapsuleCollider2D playerCollider;         // Player Capsule Collider
 
     void Awake()
     {
-        cam = FindFirstObjectByType<CinemachineCamera>();
-        playerCollider = GetComponent<CapsuleCollider2D>();
+        cam = FindFirstObjectByType<CinemachineCamera>();       // Gets the cinemachine camera
+        playerCollider = GetComponent<CapsuleCollider2D>();     // Gets the player collider
     }
 
     // If the player entered the room, disable the "cover" and enable all objects in the room
@@ -20,6 +24,8 @@ public class PlayerCollisions : MonoBehaviour
         if (!collision.IsTouching(playerCollider)) return;
 
         GameObject room = collision.gameObject;
+
+        // Disable all children of the Cover game object
         if (room.CompareTag("Cover"))
         {
             room.GetComponent<SpriteRenderer>().enabled = false;
@@ -27,7 +33,7 @@ public class PlayerCollisions : MonoBehaviour
             {
                 child.gameObject.SetActive(true);
             }
-        cam.transform.rotation = Quaternion.identity;
+            cam.transform.rotation = Quaternion.identity;
         }
     }
 
@@ -37,6 +43,8 @@ public class PlayerCollisions : MonoBehaviour
         if (collision.IsTouching(playerCollider)) return;
 
         GameObject room = collision.gameObject;
+        
+        // Disables all children of Cover Game Object
         if (room.CompareTag("Cover"))
         {
             room.GetComponent<SpriteRenderer>().enabled = true;

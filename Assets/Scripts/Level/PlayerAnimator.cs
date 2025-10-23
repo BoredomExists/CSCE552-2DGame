@@ -1,27 +1,29 @@
-using NUnit.Framework;
 using UnityEngine;
 
+/// <summary>
+/// Manages the Animations of the player
+/// </summary>
 public class PlayerAnimator : MonoBehaviour
 {
     // Plays all the animations for the player
     [Header("Graphics")]
-    public Transform spriteGO;
-    public SpriteRenderer spriteRender;
-    public Sprite projSprite;
+    public Transform spriteGO;                      // Player Sprite Visual Game Object
+    public SpriteRenderer spriteRender;             // Sprite Renderer of player sprite visual game object
+    public Sprite projSprite;                       // Sprite to change into when player switches to gauntlet
 
     [Header("Animation")]
-    public Animator animator;
-    public float walkThreshold = 0.1f;
+    public Animator animator;                       // Animator of the sprite
+    public float walkThreshold = 0.1f;              // Threshold to determine if player is moving
 
     [Header("Attack Settings")]
-    public float attackCooldown = 0.5f;
-    public Transform projStart;
+    public float attackCooldown = 0.5f;            // How quickly the player can attack
+    public Transform projStart;                    // Starting Position where the player's projectile will be created at
 
-    public UserInput userInput;
+    public UserInput userInput;                     // User Input Script of the player
 
     private Rigidbody2D rb;
-    private int lastFacing = 1;
-    private float lastAtkTime = -999f;
+    private int lastFacing = 1;                     // Determine which way the player will face
+    private float lastAtkTime = -999f;              // Max Float value to help with attackCooldown time
 
     void Start()
     {
@@ -64,16 +66,17 @@ public class PlayerAnimator : MonoBehaviour
     }
 
 
-
+    // Function to either attack with the sword or fire a projectile
     private void PlayerAttack()
     {
-        if (userInput.GetSwordUser()) animator.SetBool("isGauntlet", false);
+        if (userInput.GetSwordUser()) animator.SetBool("isGauntlet", false);                // Checks to see if player is in sword mode or gauntlet mode
         else animator.SetBool("isGauntlet", true);
         // Starts the player attacking animation
         if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time >= lastAtkTime + attackCooldown)
         {
-            lastAtkTime = Time.time;
+            lastAtkTime = Time.time;        // Resets the player attack cooldown
 
+            // If in sword mode, play sword animations
             if (userInput.GetSwordUser())
             {
                 if (lastFacing > 0)
@@ -83,11 +86,13 @@ public class PlayerAnimator : MonoBehaviour
             }
             else
             {
+                // Otherwise fire the gauntlet
                 userInput.ShootGauntlet();
             }
         }
     }
 
+    // Get the direction the player was last facing
     public int GetLastFacing()
     {
         return lastFacing;
