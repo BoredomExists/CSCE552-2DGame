@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Splines.ExtrusionShapes;
 using UnityEngine.UI;
 
 public class FinalBoss : MonoBehaviour
@@ -33,6 +32,13 @@ public class FinalBoss : MonoBehaviour
     public GameObject projPrefab;
     public int projDMG = 20;
 
+    [Header("Slam Ability FX")]
+    public LineRenderer slam1Line;
+    public LineRenderer slam2Line;
+    public int ringSegments = 48;
+    public float ringWidth = 0.05f;
+    public Color ringColor = new Color(1f, 0.5f, 0.2f, 0.9f);
+
     private Coroutine move;
     private Transform player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -50,7 +56,22 @@ public class FinalBoss : MonoBehaviour
         shockwave1 = GetComponentsInParent<CircleCollider2D>()[1];
         shockwave2 = GetComponentsInParent<CircleCollider2D>()[2];
 
+        slam1Line = CreateSlamCircle("slam1Line", ringColor);
+        slam2Line = CreateSlamCircle("slame2Line", ringColor);
+
         move = StartCoroutine(GetMove());
+    }
+
+    private void LateUpdate() {
+        if (slam1Line != null && slam1Line.enabled && shockwave1 != null)
+        {
+            UpdateRingFromCollider(slam1Line, shockwave1);
+        }
+
+        if (slam2Line != null && slam2Line.enabled && shockwave2 != null)
+        {
+            UpdateRingFromCollider(slam2Line, shockwave2);
+        }
     }
 
     IEnumerator GetMove()
@@ -137,11 +158,58 @@ public class FinalBoss : MonoBehaviour
     {
         shockwave1.enabled = true;
         shockwave2.enabled = true;
+
+        if (slam1Line != null)
+        {
+            UpdateRingFromCollider(slam1Line, shockwave1);
+            slam1Line.enabled = true;
+        }
+        if (slam2Line != null)
+        {
+            UpdateRingFromCollider(slam2Line, shockwave2);
+            slam2Line.enabled = true;
+        }
     }
 
     public void DisableSlamCircles()
     {
         shockwave1.enabled = false;
         shockwave2.enabled = false;
+
+        if (slam1Line != null) slam1Line.enabled = false;
+        if (slam2Line != null) slam2Line.enabled = false;
+    }
+
+    private LineRenderer CreateSlamCircle(string name, Color c)
+    {
+        var gameOBJ = new GameObject(name);
+        gameOBJ.transform.SetParent(transform, false);
+        var lineRender = gameOBJ.AddComponent<LineRenderer>();
+        lineRender.useWorldSpace = true;
+        lineRender.loop = true;
+        lineRender.positionCount = ringSegments;
+        lineRender.startWidth = lineRender.endWidth = ringWidth;
+        lineRender.material = new Material(Shader.Find("Sprites/Default"));
+        lineRender.sortingLayerName = "Default";
+        lineRender.sortingOrder = 10;
+        lineRender.enabled = false;
+        return lineRender;
+    }
+
+    private void UpdateRingFromCollider(LineRenderer lineRender, CircleCollider2D col)
+    {
+        Vector3 center = col.transform.TransformPoint(col.offset);
+        float scaleX = Mathf.Abs(col.transform.lossyScale.x);
+        float scaleY = Mathf.Abs(col.transform.lossyScale.y);
+        float radius = col.radius * Mathf.Max(scaleX, scaleY);
+
+        if (lineRender.positionCount != ringSegments) lineRender.positionCount = ringSegments;
+
+        for (int i = 0; i < ringSegments; i++)
+        {
+            float t = (i / (float)ringSegments) * Mathf.PI * 2f;
+            Vector3 p = center + new Vector3(Mathf.Cos(t) * radius, Mathf.Sin(t) * radius, 0f);
+            lineRender.SetPosition(i, p);
+        }
     }
 }

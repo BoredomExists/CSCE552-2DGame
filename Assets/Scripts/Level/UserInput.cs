@@ -109,7 +109,7 @@ public class UserInput : MonoBehaviour
         isGrounded = CheckIsGrounded();
 
         Vector2 lateralAxis = (Quaternion.Euler(0f, 0f, zRotation) * Vector2.right).normalized;         // Gets the current lateral axis representing the player moving left or right in the rotation frame
-        float currentLateral = Vector2.Dot(rb.linearVelocity, lateralAxis);                             // Projects the current velocity onto the lateral to get the signed lateral speed
+        float currentLateral = Vector2.Dot(rb.linearVelocity, lateralAxis);                             // Gets the dot product the current velocity onto the lateral to get the signed lateral speed
 
         float groundTarget = moveVector.x * lastGroundSpeed;                                            // Desired lateral speeds for on the ground
         float airTarget = moveVector.x * lastGroundSpeed;                                               // or in the air

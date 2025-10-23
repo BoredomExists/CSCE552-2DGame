@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,6 +16,18 @@ public class LevelManager : MonoBehaviour
     public GameObject playBTN;
     public GameObject pauseBTN;
 
+    [Header("Enemies (Mini-Boss Room A)")]
+    public GameObject EA1;
+    public GameObject EA2;
+    public GameObject EA3;
+    public GameObject key1;
+
+    [Header("Enemies (Mini-Boss Room B)")]
+    public GameObject EB1;
+    public GameObject EB2;
+    public GameObject key2;
+
+    [Header("Animation")]
     public Animator animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -44,6 +57,15 @@ public class LevelManager : MonoBehaviour
                 PauseGame();
             else
                 UnPause();
+        }
+
+        if (key1 != null)
+        {
+            CheckMBRoomA();
+        }
+        if (key2 != null)
+        {
+            CheckMBRoomB();
         }
     }
 
@@ -80,5 +102,21 @@ public class LevelManager : MonoBehaviour
     {
         LoadingScreen.DisableLevelGO();
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void CheckMBRoomA()
+    {
+        if (EA1 == null && EA2 == null && EA3 == null)
+        {
+            key1.SetActive(true);
+        }
+    }
+
+    public void CheckMBRoomB()
+    {
+        if (EB1 == null && EB2 == null)
+        {
+            key2.SetActive(true);
+        }
     }
 }

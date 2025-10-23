@@ -2,59 +2,47 @@ using UnityEngine;
 
 public class JumpEnemyPatrol : MonoBehaviour
 {
-    [Header("Jump Enemy Settings")]
+    [Header("References")]
     public Transform player;
-    public float chaseSpeed = 5f;
-    public float jumpForce = 7f;
-    public LayerMask groundLayer;
+
+
+    [Header("Jump Settings")]
+    public float jumpForce = 10f;
+    public float lateralStrength = 1f;
+    public float upwardStrength = 1f;
+    public float aggroRange = 10f;
+    public float jumpCooldown = 5f;
+
+    public LayerMask groundMask;
 
     private Rigidbody2D rb;
-    private bool isGrounded;
-    private bool shouldJump;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private float nextJump;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
-
-        float direction = Mathf.Sign(player.position.x - transform.position.x);
-
-        bool isPlayerAbove = Physics2D.Raycast(transform.position, Vector2.up, 3f, 1 << player.gameObject.layer);
-
-        if (isGrounded)
-        {
-            rb.linearVelocity = new Vector2(direction * jumpForce, rb.linearVelocity.y);
-
-            RaycastHit2D groundInFront = Physics2D.Raycast(transform.position, new Vector2(direction, 0f), 2f, groundLayer);
-            RaycastHit2D gapAhead = Physics2D.Raycast(transform.position + new Vector3(direction, 0, 0), Vector2.down, 2f, groundLayer);
-            RaycastHit2D platformAbove = Physics2D.Raycast(transform.position, Vector2.up, 3f, groundLayer);
-
-            if (!groundInFront.collider && !gapAhead.collider)
-            {
-                shouldJump = true;
-            } else if (isPlayerAbove && platformAbove)
-            {
-                shouldJump = true;
-            }
-        }
+        player = GameObject.FindWithTag("Player").transform;
     }
 
     void FixedUpdate()
     {
-        if(isGrounded && shouldJump)
-        {
-            shouldJump = false;
-            Vector2 direction = (player.position - transform.position).normalized;
+        if (Vector2.Distance(player.position, transform.position) > aggroRange) return;
+        bool isGrounded = Physics2D.OverlapCircle(transform.position, 1f, groundMask);
+        if (!isGrounded || Time.time < nextJump) return;
 
-            Vector2 jumpDirection = direction * jumpForce;
+        Vector2 toPlayer = (Vector2)(player.position - transform.position);
+        Vector2 tangent = new Vector2(-Physics2D.gravity.normalized.y, Physics2D.gravity.normalized.x);
+        Vector2 lateral = Vector2.Dot(toPlayer, tangent) * tangent;
+        if (lateral.sqrMagnitude > 0.001f) lateral = lateral.normalized * lateralStrength;
+        else lateral = Vector2.zero;
 
-            rb.AddForce(new Vector2(jumpDirection.x, jumpForce), ForceMode2D.Impulse);
-        }
+        Vector2 up = -Physics2D.gravity.normalized * upwardStrength;
+        Vector2 jumpDirection = lateral + up;
+
+        rb.linearVelocity = Vector2.zero;
+
+        rb.AddForce(jumpDirection * jumpForce, ForceMode2D.Impulse);
+        nextJump = Time.time + jumpCooldown;
     }
 }
 

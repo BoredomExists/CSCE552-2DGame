@@ -8,6 +8,8 @@ public class Key : MonoBehaviour
     public GameObject key1;
     public GameObject key2;
 
+    
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
