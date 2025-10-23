@@ -56,7 +56,6 @@ public class Projectile : MonoBehaviour
         {
             if (collision.CompareTag("Enemy"))
             {
-                Debug.Log("Enemy Contact");
                 enemyHS = collision.GetComponent<HealthSystem>();
                 enemyHS.TakeDamage(userInput.GetDamage());
                 Destroy(gameObject);

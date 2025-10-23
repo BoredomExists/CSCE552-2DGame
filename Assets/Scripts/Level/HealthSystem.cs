@@ -23,6 +23,10 @@ public class HealthSystem : MonoBehaviour
     {
         currentHealth -= dmg;
         healthChanged = true;
+        if (currentHealth < 0)
+        {
+            currentHealth = 0;
+        }
     }
 
     // Function to heal damage to gameobjects with the health system

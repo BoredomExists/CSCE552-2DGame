@@ -53,10 +53,10 @@ public class LevelManager : MonoBehaviour
         }
 
         // Check Win Condition
-        if (finalBoss == null)
-        {
-            LoadScreen(winSceneName);
-        }
+        //if (finalBoss == null)
+        //{
+        //    LoadScreen(winSceneName);
+        //}
 
         // Secondary way of accessing pause menu
         if (Input.GetKeyDown(KeyCode.Escape))

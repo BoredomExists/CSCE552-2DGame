@@ -4056,7 +4056,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10, y: -3.300003, z: -10}
+  m_LocalPosition: {x: 126, y: -63.300003, z: -10}
   m_LocalScale: {x: 7, y: 7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7328,7 +7328,7 @@ Transform:
   m_GameObject: {fileID: 902636005}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10, y: -3.300003, z: -10}
+  m_LocalPosition: {x: 126, y: -63.300003, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8375,9 +8375,10 @@ GameObject:
   - component: {fileID: 1038608229}
   - component: {fileID: 1038608228}
   - component: {fileID: 1038608226}
+  - component: {fileID: 1038608231}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Boss
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8657,6 +8658,19 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.005, y: 0.2}
   m_Radius: 0.065
+--- !u!114 &1038608231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038608217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 513a88b00f470b34db944ac63ebb16a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 0}
 --- !u!4 &1043190587 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 233866627224938399, guid: 44125ec876c282241bd1aeb96f73c894, type: 3}
@@ -11434,7 +11448,7 @@ GameObject:
   - component: {fileID: 1454796006}
   m_Layer: 0
   m_Name: Visual
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11549,7 +11563,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1454796004}
   hs: {fileID: 1038608226}
-  ps: {fileID: 1660652624}
   leftArm: {fileID: 0}
   rightArm: {fileID: 0}
   head: {fileID: 0}
@@ -13596,7 +13609,7 @@ Transform:
   m_GameObject: {fileID: 1660652612}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10, y: -4.300003, z: 0}
+  m_LocalPosition: {x: 126, y: -64.3, z: 0}
   m_LocalScale: {x: 7, y: 7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

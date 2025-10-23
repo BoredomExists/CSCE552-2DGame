@@ -179,6 +179,9 @@ public class PlayerAbilities : MonoBehaviour
         if (!aoe || !aoe.enabled) return;
         if ((projectileLayer.value & (1 << collision.gameObject.layer) & projectileLayer) == 0) return;
 
+        var proj = collision.GetComponent<Projectile>();
+        if (proj == null || proj.owner == Projectile.ProjectileOwner.Player) return; // Ignore player projectiles
+
         var rb = collision.attachedRigidbody;
         if (rb != null)
         {

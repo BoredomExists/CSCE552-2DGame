@@ -11,7 +11,6 @@ public class FinalBoss : MonoBehaviour
     [Header("References")]
     public Animator animator;                                               // Animator Component
     public HealthSystem hs;                                                 // Health System of the Final Boss
-    public HealthSystem ps;                                                 // Health System of the Player
     public BoxCollider2D leftArm;                                           // Collider hit box for the left arm
     public BoxCollider2D rightArm;                                          // Collider hit box for the right arm
     public CircleCollider2D head;                                           // Collider circle for the head
@@ -50,9 +49,8 @@ public class FinalBoss : MonoBehaviour
         animator = GetComponent<Animator>();                                                // Gets the Animator of the Final Boss
         hs = GetComponentInParent<HealthSystem>();                                          // Gets the HealthSystem of the Final Boss
         bossHealthBar.SetActive(true);                                                      // Sets the boss health bar to be active
-        bossSlider.value = Mathf.Clamp01((float)hs.GetCurrentHealth() / hs.GetMaxHealth()); // Sets the value of the health bar
+        UpdateBossBar(); // Sets the value of the health bar
         player = GameObject.FindWithTag("Player").transform;                                // Gets the player
-
         rightArm = GetComponentsInParent<BoxCollider2D>()[0];                               // Gets the right arm hit box
         leftArm = GetComponentsInParent<BoxCollider2D>()[1];                                // Gets the left arm hit box
         head = GetComponentsInParent<CircleCollider2D>()[0];                                // Gets the head hit box
@@ -63,6 +61,19 @@ public class FinalBoss : MonoBehaviour
         slam2Line = CreateSlamCircle("slame2Line", ringColor);
 
         move = StartCoroutine(GetMove());                                                  // Starts the Coroutine for the Final Boss to do attacks
+    }
+
+    void Update()
+    {
+        // Updates Boss Bar when damaged
+        if(hs.IsHealthChanged())
+        {
+            UpdateBossBar();
+            if (hs.GetCurrentHealth() <= 0)
+            {
+                Destroy(transform.parent.gameObject);
+            }
+        }
     }
 
     // Makes the ring is still applied to the colliders
@@ -221,6 +232,16 @@ public class FinalBoss : MonoBehaviour
             float t = (i / (float)ringSegments) * Mathf.PI * 2f;
             Vector3 p = center + new Vector3(Mathf.Cos(t) * radius, Mathf.Sin(t) * radius, 0f);
             lineRender.SetPosition(i, p);
+        }
+    }
+
+    // Updates the health counter of the health bar and if 0, destroy the enemy
+    public void UpdateBossBar()
+    {
+        bossSlider.value = Mathf.Clamp01((float)hs.GetCurrentHealth() / hs.GetMaxHealth());
+        if (hs.GetCurrentHealth() <= 0)
+        {
+            Destroy(gameObject);
         }
     }
 }

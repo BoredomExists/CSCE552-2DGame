@@ -30,6 +30,9 @@ public class PlayerAnimator : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         spriteRender = spriteGO.GetComponent<SpriteRenderer>();
+
+        if (userInput != null && projStart == null)
+            projStart = userInput.projPOS;
     }
 
     void Update()

@@ -84,7 +84,7 @@ public class UserInput : MonoBehaviour
             rb.linearVelocity += Physics2D.gravity.normalized * fastFallSpeed;
 
         // Swap weapon modes
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             isSwordUser = !isSwordUser;
             SwapWeapon();
@@ -246,7 +246,7 @@ public class UserInput : MonoBehaviour
     // Shoots gauntlet function when in gauntlet mode
     public void ShootGauntlet()
     {
-        Camera cam = (mainCamera != null) ? activeCam : Camera.main;
+        Camera cam = (activeCam != null) ? activeCam : Camera.main;
 
         Vector3 mouseScreen = Input.mousePosition;
         Vector3 screenPointWithZ = new Vector3(mouseScreen.x, mouseScreen.y, cam.WorldToScreenPoint(projPOS.position).z);
