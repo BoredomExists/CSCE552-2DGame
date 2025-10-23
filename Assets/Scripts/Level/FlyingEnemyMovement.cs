@@ -5,6 +5,8 @@ using UnityEngine;
 /// </summary>
 public class FlyingEnemyMovement : MonoBehaviour
 {
+    [Header("References")]
+    public EnemyAudioController enemyAudio;                                 // Audio Controller for the Enemy
     [Header("Enemy Settings")]
     public float speed = 5f;                                            // Move speed for enemy
     public float rotateSpeed = 2f;                                      // Rotate speed when enemy hit a wall
@@ -19,6 +21,7 @@ public class FlyingEnemyMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();                               // Gets rigidbody component
+        enemyAudio = GetComponent<EnemyAudioController>();              // Gets the Audio Controller
     }
 
     void FixedUpdate()
@@ -51,5 +54,7 @@ public class FlyingEnemyMovement : MonoBehaviour
             return;
         }
         rb.linearVelocity = moveY.normalized * speed;                       // Moves the enemy
+        // enemyAudio.PlayMoving(); Not sure which audio to put here Idle or moving
+        // enemyAudio.PlayEnemyIdle();
     }
 }

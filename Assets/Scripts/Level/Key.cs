@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 
@@ -9,6 +10,16 @@ public class Key : MonoBehaviour
     [Header("References")]
     public GameObject key1;
     public GameObject key2;
+    public AudioSource keyAudio;
+
+    [Header("Audio Clips")]
+    public AudioClip getKey;
+
+    void Start()
+    {
+        keyAudio = GetComponent<AudioSource>();
+        keyAudio.volume = .2f;
+    }
 
 
     // If the player collides with the key game object, enable the key UI element.
@@ -17,12 +28,20 @@ public class Key : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (!key1.activeSelf)
-                key1.SetActive(true);
-            else
-                key2.SetActive(true); ;
-
-            Destroy(gameObject);
+            keyAudio.PlayOneShot(getKey);
+            StartCoroutine(DestroyKey());
         }
+    }
+
+    IEnumerator DestroyKey()
+    {
+        yield return new WaitForSeconds(1f);
+        if (!key1.activeSelf)
+        {
+            key1.SetActive(true);
+        }
+        else
+            key2.SetActive(true);
+        Destroy(gameObject);
     }
 }

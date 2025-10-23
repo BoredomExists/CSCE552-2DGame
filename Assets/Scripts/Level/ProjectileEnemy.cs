@@ -6,6 +6,7 @@ using UnityEngine;
 public class ProjectileEnemy : MonoBehaviour
 {
     [Header("References")]
+    public EnemyAudioController enemyAudio;                                 // Audio Controller for the Enemy
     public Transform hand;      // Projectile Starting that a projectile enemy must have
     public Transform otherHand; // For Mini-Boss Projectile
     public Transform flyingBossHand; // For Three armed flying enemy
@@ -23,6 +24,7 @@ public class ProjectileEnemy : MonoBehaviour
     void Start()
     {
         target = GameObject.FindWithTag("Player").transform;            // Gets the player
+        enemyAudio = GetComponent<EnemyAudioController>();              // Gets the audio controller for the enemy
     }
 
     // Update is called once per frame
@@ -45,9 +47,10 @@ public class ProjectileEnemy : MonoBehaviour
     private void FireProjectile(Vector2 direction)
     {
         lastAtkTime = Time.time;
+        enemyAudio.PlayEnemyProjectile();
         var projGO = Instantiate(projectilePrefab, hand.position, Quaternion.identity);         // Creates the new projectile
         var proj = projGO.GetComponent<Projectile>();                                           // Gets the projectile script from the projectile Game Object
-        
+
         // Fires projectile(s) based on amount of projectile starting points
         if (proj) proj.Fire(direction, damage, Projectile.ProjectileOwner.Enemy);
         if (otherHand)

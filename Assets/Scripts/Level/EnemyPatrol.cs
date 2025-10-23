@@ -5,6 +5,8 @@ using UnityEngine;
 /// </summary>
 public class EnemyPatrol : MonoBehaviour
 {
+    [Header("References")]
+    public EnemyAudioController enemyAudio;                                 // Audio Controller for the Enemy
     [Header("Enemy Settings")]
     public float speed = 5f;                                                // Move speed of the enemy             
     public LayerMask groundLayer;                                           // Checks objects to see if their layer is "Ground"
@@ -18,6 +20,7 @@ public class EnemyPatrol : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();                                           // Gets the rigidbody of the enemy
+        enemyAudio = GetComponent<EnemyAudioController>();                          // Gets the Audio Controller
         rb.freezeRotation = true;                                                   // Freezes the rotation so the enemy cannot be knocked over
     }
 
@@ -43,6 +46,7 @@ public class EnemyPatrol : MonoBehaviour
         }
 
         rb.linearVelocity = fwd.normalized * speed;                                                    // Moves the enemy
+        enemyAudio.PlayMoving();
     }
 }
 

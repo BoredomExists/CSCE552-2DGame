@@ -28,6 +28,10 @@ public class PlayerAudioController : MonoBehaviour
     public float gravityLaunchLandVolume = 0.5f;
     public AudioClip repulsorWave;
     public float repulsorWaveVolume = 0.5f;
+    public AudioClip playerDeath;
+    public float playerDeathVolume = 0.5f;
+    public AudioClip playerHit;
+    public float playerHitVolume = 0.5f;
 
     void Awake()
     {
@@ -39,16 +43,6 @@ public class PlayerAudioController : MonoBehaviour
 
         playerLoopSource.loop = true;
         playerSFXSource.loop = false;
-    }
-
-    public void DisableLoopAudio()
-    {
-        if (playerLoopSource.loop)
-        {
-            playerLoopSource.loop = false;
-            playerLoopSource.Stop();
-            playerLoopSource.clip = null;
-        }
     }
 
     public void PlayWalking()
@@ -115,5 +109,17 @@ public class PlayerAudioController : MonoBehaviour
     {
         playerSFXSource.volume = repulsorWaveVolume;
         playerSFXSource.PlayOneShot(repulsorWave);
+    }
+
+    public void PlayPlayerDeath()
+    {
+        playerSFXSource.volume = playerDeathVolume;
+        playerSFXSource.PlayOneShot(playerDeath);
+    }
+
+    public void PlayPlayerHit()
+    {
+        playerSFXSource.volume = playerHitVolume;
+        playerSFXSource.PlayOneShot(playerHit);
     }
 }

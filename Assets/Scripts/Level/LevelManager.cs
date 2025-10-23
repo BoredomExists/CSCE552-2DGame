@@ -10,6 +10,9 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class LevelManager : MonoBehaviour
 {
+    [Header("References")]
+    public LevelManagerAudioController lmAudio;                 // Audio Controller of the level manager
+
     [Header("Scenes")]
     public string winSceneName = "WinScene";                    // Name of Scene to load when player wins
     public string loseSceneName = "LoseScene";                  // Name of Scene to load when player loses
@@ -39,6 +42,7 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1f;                                    // Sets the Time Scale to 1 incase it was set to 0 from other scripts
+        lmAudio = GetComponent<LevelManagerAudioController>();  // Gets the audio controller
         player = GameObject.FindWithTag("Player");              // Gets the player
         finalBoss = GameObject.FindWithTag("Boss");             // Gets the final boss
     }
@@ -96,6 +100,7 @@ public class LevelManager : MonoBehaviour
     // Pauses game
     public void PauseGame()
     {
+        lmAudio.PlayUIButtonPress();
         Time.timeScale = 0f;
         playBTN.SetActive(false);
         pauseBTN.SetActive(true);
@@ -105,6 +110,7 @@ public class LevelManager : MonoBehaviour
     // Unpauses game
     public void UnPause()
     {
+        lmAudio.PlayUIButtonPress();
         Time.timeScale = 1f;
         playBTN.SetActive(true);
         pauseBTN.SetActive(false);
@@ -114,6 +120,7 @@ public class LevelManager : MonoBehaviour
     // Function for pause menu button to go to main menu
     public void QuitToMM()
     {
+        lmAudio.PlayUIButtonPress();
         LoadingScreen.DisableLevelGO();
         SceneManager.LoadScene("MainMenu");
     }

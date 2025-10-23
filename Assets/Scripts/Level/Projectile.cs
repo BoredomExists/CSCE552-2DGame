@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +5,10 @@ using UnityEngine;
 /// </summary>
 public class Projectile : MonoBehaviour
 {
+    [Header("References")]
+    public PlayerAudioController playerAudio;       // Audio Controller for the Player
+    public EnemyAudioController enemyAudio;         // Audio Controller for the Enemy
+
     [Header("Projectile Settings")]
     public float speed = 10f;                       // Speed the projectile moves at
     public float lifeTime = 5f;                     // How long until the projectile gets destroyed if no collisions
@@ -23,6 +26,8 @@ public class Projectile : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();                                           // Gets rigidbody
         userInput = GameObject.FindWithTag("Player").GetComponent<UserInput>();     // Gets User Input Script
+        playerAudio = GameObject.FindWithTag("Player").GetComponent<PlayerAudioController>();   // Gets the Player Audio Controller Script
+        enemyAudio = GameObject.FindWithTag("Enemy").GetComponent<EnemyAudioController>();  // Gets the Enemy Audio Controller Script
         rb.gravityScale = 0f;                                                       // Sets projetile gravity scale to 0 to fly straight
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;            // Sets detecting mode to continuous to always be checking for collision
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;                    // Sets the interpolation for smoother movements
@@ -39,6 +44,10 @@ public class Projectile : MonoBehaviour
         transform.right = direction;
 
         owner = ownerType;
+        if (ownerType == ProjectileOwner.Enemy)
+        {
+            enemyAudio.PlayEnemyProjectile();
+        }
         damage = dmg;
         Invoke(nameof(DestroySelf), lifeTime);
     }
@@ -57,6 +66,7 @@ public class Projectile : MonoBehaviour
             if (collision.CompareTag("Enemy"))
             {
                 enemyHS = collision.GetComponent<HealthSystem>();
+                enemyAudio.PlayEnemyHit();
                 enemyHS.TakeDamage(userInput.GetDamage());
                 Destroy(gameObject);
             }
@@ -67,6 +77,7 @@ public class Projectile : MonoBehaviour
             if (collision.CompareTag("Player"))
             {
                 playerHS = collision.GetComponent<HealthSystem>();
+                playerAudio.PlayPlayerHit();
                 playerHS.TakeDamage(damage);
                 Destroy(gameObject);
             }

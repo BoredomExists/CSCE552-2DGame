@@ -175,6 +175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d26fe88f51ec715429b11bc9105934e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerAudio: {fileID: 0}
+  enemyAudio: {fileID: 4014849469856270713, guid: 153edddf90673574380a401f0bf07cdd, type: 3}
   speed: 10
   lifeTime: 5
   playerHS: {fileID: 0}

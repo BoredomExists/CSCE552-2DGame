@@ -6,6 +6,8 @@ using UnityEngine.UI;
 /// </summary>
 public class EnemyHealthBar : MonoBehaviour
 {
+    [Header("References")]
+    public EnemyAudioController enemyAudio;                                     // Audio Controller for the enemy
     [Header("Health Bar References")]
     public GameObject barPrefab;                                                // Health Bar Prefab representing the enemies health bar
     public Canvas UICanvas;                                                     // UI Canvas to show the health bar for player to see
@@ -21,6 +23,7 @@ public class EnemyHealthBar : MonoBehaviour
     {
         mainCam = Camera.main;                                                      // Gets the current main camera set
         hs = GetComponent<HealthSystem>();                                          // Gets the HealthSystem of the enemy
+        enemyAudio = GameObject.FindWithTag("Enemy").GetComponent<EnemyAudioController>(); // Gets the audio controller
         UICanvas = FindFirstObjectByType<Canvas>();                                 // Gets the Canvas to place Health Bar
     }
 
@@ -77,6 +80,7 @@ public class EnemyHealthBar : MonoBehaviour
         barSlider.value = Mathf.Clamp01((float)hs.GetCurrentHealth() / hs.GetMaxHealth());
         if (hs.GetCurrentHealth() <= 0)
         {
+            enemyAudio.PlayEnemyDeath();
             Destroy(gameObject);
         }
     }

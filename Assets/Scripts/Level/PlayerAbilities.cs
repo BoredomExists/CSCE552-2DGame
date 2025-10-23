@@ -81,7 +81,7 @@ public class PlayerAbilities : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && Time.time >= lastLaunch + GLCooldown)
         {
             playerAudio.PlayGravityLaunch();
-            jumpReady = true;
+            StartCoroutine(EnableGravityLaunch());
         }
         if (Input.GetKeyDown(KeyCode.E) && Time.time >= lastRepulse + repulsorCooldown)
         {
@@ -119,6 +119,13 @@ public class PlayerAbilities : MonoBehaviour
             rb.AddForce(-Physics2D.gravity.normalized * jumpForce, ForceMode2D.Impulse);
         }
         jumpReady = false;
+    }
+
+    // Here to match sfx sound
+     IEnumerator EnableGravityLaunch()
+    {
+        yield return new WaitForSeconds(1f);
+        jumpReady = true;
     }
 
     // Activates the Repulsor Wave ability

@@ -12,6 +12,11 @@ public class LoadingScreen : MonoBehaviour
 {
     [Header("References")]
     public static string levelSceneName = "Level";      // Level Scene Name
+    public AudioSource mainMenuAudio;                   // Audio Source to play background music
+
+    [Header("Audio Clip")]
+    public AudioClip backgroundMusic;
+    public float backgroundMusicVolume = 0.5f;
 
     [Header("UI Elements")]
     public GameObject loadingScreen;                    // Loading Screen Game Object
@@ -26,6 +31,7 @@ public class LoadingScreen : MonoBehaviour
     void Awake()
     {
         menuSceneName = SceneManager.GetActiveScene().name;
+        mainMenuAudio = GetComponent<AudioSource>();
 
         mainMenu.SetActive(false);
         loadingScreen.SetActive(true);
@@ -53,6 +59,7 @@ public class LoadingScreen : MonoBehaviour
         DisableLevelGO();
         loadingScreen.SetActive(false);
         mainMenu.SetActive(true);
+        StartCoroutine(PlayBackgroundMusic());
     }
 
     // Function for Play button to activate the preloaded level scene
@@ -105,5 +112,14 @@ public class LoadingScreen : MonoBehaviour
         {
             if (GOs[i]) GOs[i].SetActive(true);
         }
+    }
+
+    IEnumerator PlayBackgroundMusic()
+    {
+        yield return new WaitForSeconds(1f);
+        mainMenuAudio.clip = backgroundMusic;
+        mainMenuAudio.loop = true;
+        mainMenuAudio.volume = backgroundMusicVolume;
+        mainMenuAudio.Play();
     }
 }

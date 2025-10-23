@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -12,11 +13,19 @@ public class BossDoorAnimation : MonoBehaviour
 
     public GameObject key1;                                                // UI Element representing the first key
     public GameObject key2;                                                // UI Element representing the second key
+
+    public AudioSource doorAudio;                                          // Audio Source on the final boss door
+    
+
+    [Header("Audio Clips")]
+    public AudioClip doorUnlock;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();                                // Gets the Animator of the Boss Door
         colBox.gameObject.SetActive(true);                                  // Gets the Non-Trigger Collider box to prevent player from walking through
+        doorAudio = GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -24,6 +33,7 @@ public class BossDoorAnimation : MonoBehaviour
         if (!collision.CompareTag("Player")) return;                        // Make sure nothing else causes the trigger or collision
         if (checkKeys() && collision.CompareTag("Player"))                  // Checks to see if the player has obtained both keys and if so, unlock door
         {
+            doorAudio.PlayOneShot(doorUnlock);
             animator.SetBool("bossDoorOpen", true);
         }
     }

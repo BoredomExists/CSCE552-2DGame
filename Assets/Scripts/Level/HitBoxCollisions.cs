@@ -8,15 +8,20 @@ using UnityEngine;
 public class HitBoxCollisions : MonoBehaviour
 {
     [Header("References")]
+    public PlayerAudioController playerAudio;                       // Gets the Audio Controller from the player
+    public EnemyAudioController enemyAudio;                         // Gets the Audio Controller from an enemy
     public UserInput userInput;                                     // Gets the user input to get the damage the user does
 
     void Start()
     {
         userInput = GameObject.FindWithTag("Player").GetComponent<UserInput>();
+        playerAudio = GameObject.FindWithTag("Player").GetComponent<PlayerAudioController>();
+
+        enemyAudio = GetComponent<EnemyAudioController>();
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Cover")) return;                         // Makes sure nothing else triggers this even
+        if (collision.collider.CompareTag("Cover")) return;                         // Makes sure nothing else triggers this event
 
         // If the player collides with the enemy, the enemy takes damage
         if (collision.collider.CompareTag("Enemy"))
@@ -35,6 +40,7 @@ public class HitBoxCollisions : MonoBehaviour
 
             if (playerHS != null)
             {
+                playerAudio.PlayPlayerHit();
                 playerHS.TakeDamage(20);
             }
         }

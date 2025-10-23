@@ -7,8 +7,6 @@ public class ListTODO : MonoBehaviour
     * Enemy Health - Testing for good HP amount
     * Level Design - Debris and what debris does for the level
     * Wall Enemy - Animation, Collision, Movement
-    * Game Audio
-    * Game Music
     */
 
 }

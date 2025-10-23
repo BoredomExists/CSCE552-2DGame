@@ -15,6 +15,7 @@ TagManager:
   - BossDoor
   - Door
   - Boss
+  - LevelManager
   layers:
   - Default
   - TransparentFX

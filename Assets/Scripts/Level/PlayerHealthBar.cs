@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class PlayerHealthBar : MonoBehaviour
 {
     [Header("References")]
+    public PlayerAudioController playerAudio;       // Player Audio Controller
     public Animator animator;       // Animator of Player
     public HealthSystem hs;         // Health System of Player
     public Slider slider;           // Slider of Health Bar
@@ -18,6 +19,7 @@ public class PlayerHealthBar : MonoBehaviour
     void Start()
     {
         hs = GetComponent<HealthSystem>();              // Gets the player health system
+        playerAudio = GetComponent<PlayerAudioController>(); // Gets the player audio controller
         UpdateUI();                                     // Updates the UI of the Health bar
 
         animator = GetComponentInChildren<Animator>();  // Gets animator of the player sprite
@@ -56,6 +58,7 @@ public class PlayerHealthBar : MonoBehaviour
     IEnumerator PlayerDeath()
     {
         animator.SetTrigger("isDead");
+        playerAudio.PlayPlayerDeath();
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }

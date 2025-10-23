@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class FinalBoss : MonoBehaviour
 {
     [Header("References")]
+    public FinalBossAudioController bossAudio;                              // Audio Controller for final boss
     public Animator animator;                                               // Animator Component
     public HealthSystem hs;                                                 // Health System of the Final Boss
     public BoxCollider2D leftArm;                                           // Collider hit box for the left arm
@@ -27,7 +28,7 @@ public class FinalBoss : MonoBehaviour
     public CircleCollider2D shockwave2;
 
     [Header("Timing")]
-    public float delayBetweenMoves = 7f;                                    // How long before the boss can do another move
+    public float delayBetweenMoves = 5f;                                    // How long before the boss can do another move
     public float postAttackBuffer = .5f;                                    // Delay for the animation of a move to finish
 
     [Header("Projectile")]
@@ -46,6 +47,7 @@ public class FinalBoss : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        bossAudio = GetComponentInParent<FinalBossAudioController>();                       // Gets the Audio Controller from Parent
         animator = GetComponent<Animator>();                                                // Gets the Animator of the Final Boss
         hs = GetComponentInParent<HealthSystem>();                                          // Gets the HealthSystem of the Final Boss
         bossHealthBar.SetActive(true);                                                      // Sets the boss health bar to be active
@@ -102,6 +104,7 @@ public class FinalBoss : MonoBehaviour
             switch (moveNumber)
             {
                 case 0:
+                    bossAudio.PlayShieldAudio();
                     animator.SetTrigger("isShield");
                     break;
 
@@ -110,11 +113,18 @@ public class FinalBoss : MonoBehaviour
                     break;
 
                 case 2:
+                    StartCoroutine(PlaySlammingAudio());
                     animator.SetTrigger("isSlamming");
                     break;
             }
             yield return new WaitForSeconds(postAttackBuffer);      // Delay for animation to finish before starting routine again
         }
+    }
+
+    IEnumerator PlaySlammingAudio()
+    {
+        yield return new WaitForSeconds(1.5f);
+        bossAudio.PlaySlamAudio();
     }
 
     // Creates all projectiles and fires them
