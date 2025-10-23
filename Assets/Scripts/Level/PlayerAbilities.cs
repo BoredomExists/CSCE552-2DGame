@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class PlayerAbilities : MonoBehaviour
 {
+    [Header("References")]
+    public PlayerAudioController playerAudio;           // Gets the Player Audio Controller Script 
     public UserInput userInput;                         // Gets the user script for getting the player's damage
     [Header("Gravity Launch")]
     public float jumpForce = 20f;                       // How much power to launch the player
@@ -40,6 +42,7 @@ public class PlayerAbilities : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();                           // Gets the rigidbody
         userInput = GetComponent<UserInput>();                      // Gets the User Input Script
+        playerAudio = GetComponent<PlayerAudioController>();        // Gets the player audio controller script
         aoe = GetComponentInChildren<CircleCollider2D>();           // Gets the repulsor wave collider
         aoe.isTrigger = true;                                       // Sets it to be a trigger collider
         aoe.enabled = false;                                        // Disables it on start
@@ -77,6 +80,7 @@ public class PlayerAbilities : MonoBehaviour
         // Input commands for abilities (Q = Gravity Launch, E = Repulsor Wave)
         if (Input.GetKeyDown(KeyCode.Q) && Time.time >= lastLaunch + GLCooldown)
         {
+            playerAudio.PlayGravityLaunch();
             jumpReady = true;
         }
         if (Input.GetKeyDown(KeyCode.E) && Time.time >= lastRepulse + repulsorCooldown)
@@ -124,6 +128,7 @@ public class PlayerAbilities : MonoBehaviour
         aoe.enabled = true;                 // Enables the ring
 
         float end = Time.time + repulsorDuration;   // Sets the duration of the ability
+        playerAudio.PlayRepulsorWave();
         while (Time.time < end)
         {
             // Creates the colliders within the ring and checks for a projectile

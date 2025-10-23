@@ -5,6 +5,8 @@ using UnityEngine;
 /// </summary>
 public class PlayerAnimator : MonoBehaviour
 {
+    [Header("References")]
+    public PlayerAudioController playerAudio;           // Gets the Player Audio Controller Script 
     // Plays all the animations for the player
     [Header("Graphics")]
     public Transform spriteGO;                      // Player Sprite Visual Game Object
@@ -29,6 +31,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        playerAudio = GetComponent<PlayerAudioController>();    // Gets the audio controller
         spriteRender = spriteGO.GetComponent<SpriteRenderer>();
 
         if (userInput != null && projStart == null)
@@ -82,6 +85,7 @@ public class PlayerAnimator : MonoBehaviour
             // If in sword mode, play sword animations
             if (userInput.GetSwordUser())
             {
+                playerAudio.PlaySwordAttack();
                 if (lastFacing > 0)
                     animator.SetTrigger("isAttacking");
                 else

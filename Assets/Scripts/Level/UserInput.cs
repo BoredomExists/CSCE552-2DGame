@@ -7,6 +7,9 @@ using UnityEngine.UI;
 /// </summary>
 public class UserInput : MonoBehaviour
 {
+    [Header("References")]
+    public PlayerAudioController playerAudio;           // Gets the Player Audio Controller Script 
+
     [Header("Movement Settings")]
     public float moveSpeed = 5f;                        // Move speed of the player
     public float sprintSpeed = 12f;                     // Sprint Speed of the player
@@ -47,6 +50,7 @@ public class UserInput : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 moveVector;                         // Vector in which direction the player can move
     private float lastGroundSpeed;                      // Check the ground speed to manage air momentum
+    private bool wasGrounded;                           // Check to see if the player was in the air
     private float zRotation = 0f;                       // Sets rotation of camera to 0 by default
     private CinemachineCamera ccam;                     // Cinemachine Camera
     private Camera activeCam;                           // Main Camera
@@ -56,6 +60,7 @@ public class UserInput : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();                       // Gets the rigidbody
+        playerAudio = GetComponent<PlayerAudioController>();    // Gets the audio controller
         lastGroundSpeed = moveSpeed;                            // Sets last ground speed to move speed
     
         ccam = FindFirstObjectByType<CinemachineCamera>();      // Gets Cinemachine Camera
@@ -77,7 +82,11 @@ public class UserInput : MonoBehaviour
 
         // Jump Function
         if (Input.GetButtonDown("Jump") && isGrounded)
+        {
             rb.AddForce(-Physics2D.gravity.normalized * jumpForce, ForceMode2D.Impulse);
+            playerAudio.PlayJump();
+        }
+            
 
         // Fast Fall Function
         if (Input.GetKeyDown(KeyCode.S) && !isGrounded)
@@ -90,8 +99,14 @@ public class UserInput : MonoBehaviour
             SwapWeapon();
         }
 
-
-        lastGroundSpeed = (Input.GetKey(KeyCode.LeftShift) && isGrounded) ? sprintSpeed : moveSpeed;               // Determines if the player is sprinting or not
+        if (Input.GetKey(KeyCode.LeftShift) && isGrounded)
+        {
+            lastGroundSpeed = sprintSpeed;
+        }
+        else
+        {
+            lastGroundSpeed = moveSpeed;
+        }
 
         // Changes rotation settings based on arrow key input
         ChangeRotation();
@@ -129,6 +144,25 @@ public class UserInput : MonoBehaviour
         Vector2 gravityVelocity = Vector2Project(rb.linearVelocity, Physics2D.gravity.normalized);     // Keep only the component of current velocity along gravity
 
         rb.linearVelocity = lateralVelocity + gravityVelocity;
+        if (isGrounded && Mathf.Abs(finalLateral) > 0.01f)
+        {
+            if (Mathf.Approximately(lastGroundSpeed, sprintSpeed))
+            {
+                playerAudio.PlaySprinting();
+            } else
+            {
+                playerAudio.PlayWalking();
+            }
+        } else
+        {
+            playerAudio.StopPlayingWalkingClips();
+        }
+
+        if(!wasGrounded && isGrounded)
+        {
+            playerAudio.PlayLanding();
+        }
+        wasGrounded = isGrounded;
     }
 
     private Vector2 Vector2Project(Vector2 a, Vector2 b)
@@ -255,6 +289,8 @@ public class UserInput : MonoBehaviour
         Vector2 direction = (mouseWorld - projPOS.position).normalized;
         var projGO = Instantiate(projectilePrefab, projPOS.position, Quaternion.identity);
         var projComp = projGO.GetComponent<Projectile>();
+
+        playerAudio.PlayProjectileAttack();
         projComp.Fire(direction, playerDamage, Projectile.ProjectileOwner.Player);
     }
 
