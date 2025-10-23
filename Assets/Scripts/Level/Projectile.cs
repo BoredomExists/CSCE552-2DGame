@@ -8,6 +8,8 @@ public class Projectile : MonoBehaviour
     public HealthSystem playerHS;
     public HealthSystem enemyHS;
 
+    public UserInput userInput;
+
     public enum ProjectileOwner { Player, Enemy };
 
     private Rigidbody2D rb;
@@ -38,7 +40,7 @@ public class Projectile : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.isTrigger) return;
-        if (!collision.CompareTag("Enemy") || !collision.CompareTag("Player")) Destroy(gameObject);
+        if (!collision.CompareTag("Player") && owner == ProjectileOwner.Player) Destroy(gameObject);
 
         if (owner == ProjectileOwner.Player)
         {
@@ -46,7 +48,7 @@ public class Projectile : MonoBehaviour
             {
                 Debug.Log("Enemy Contact");
                 enemyHS = collision.GetComponent<HealthSystem>();
-                enemyHS.TakeDamage(damage);
+                enemyHS.TakeDamage(userInput.GetDamage());
                 Destroy(gameObject);
             }
         }

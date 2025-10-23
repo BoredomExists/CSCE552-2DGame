@@ -1,6 +1,7 @@
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class UserInput : MonoBehaviour
@@ -36,10 +37,10 @@ public class UserInput : MonoBehaviour
     public Sprite gauntletSprite;
 
     [Header("Weapon Settings")]
+    public int playerDamage = 30;
     public Transform projPOS;
     public GameObject projectilePrefab;
     public float projSpeed = 10f;
-    public int projDamage = 20;
 
 
     private Rigidbody2D rb;
@@ -246,11 +247,21 @@ public class UserInput : MonoBehaviour
         Vector2 direction = (mouseWorld - projPOS.position).normalized;
         var projGO = Instantiate(projectilePrefab, projPOS.position, Quaternion.identity);
         var projComp = projGO.GetComponent<Projectile>();
-        projComp.Fire(direction, projDamage, Projectile.ProjectileOwner.Player);
+        projComp.Fire(direction, playerDamage, Projectile.ProjectileOwner.Player);
     }
 
     public bool GetSwordUser()
     {
         return isSwordUser;
+    }
+
+    public int GetDamage()
+    {
+        return playerDamage;
+    }
+
+    public void SetDamage(int damage)
+    {
+        playerDamage = damage;
     }
 }
