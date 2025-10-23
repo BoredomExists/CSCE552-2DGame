@@ -16,7 +16,6 @@ public class HitBoxCollisions : MonoBehaviour
     {
         userInput = GameObject.FindWithTag("Player").GetComponent<UserInput>();
         playerAudio = GameObject.FindWithTag("Player").GetComponent<PlayerAudioController>();
-
         enemyAudio = GetComponent<EnemyAudioController>();
     }
     void OnCollisionEnter2D(Collision2D collision)

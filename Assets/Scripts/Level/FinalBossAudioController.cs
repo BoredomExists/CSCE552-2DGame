@@ -9,26 +9,38 @@ public class FinalBossAudioController : MonoBehaviour
     public AudioSource bossAudioSource;             // Audio Source for the final boss
 
     [Header("Audio Clips")]
-    public AudioClip shield;
-    public float shieldVolume = 0.5f;
-    public AudioClip slam;
-    public float slamVolume = 0.2f;
+    public AudioClip shield;                        // Audio Clip for Shield Animation
+    public AudioClip slam;                          // Audio Clip for Slam Animation
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        bossAudioSource = GetComponent<AudioSource>();
+        bossAudioSource = GetComponent<AudioSource>();          // Gets the Audio Source
     }
 
+    /// <summary>
+    /// Functions to call to play, pause, resume boss sfx audio
+    /// </summary>
     public void PlayShieldAudio()
     {
-        bossAudioSource.volume = shieldVolume;
         bossAudioSource.PlayOneShot(shield);
     }
 
     public void PlaySlamAudio()
     {
-        bossAudioSource.volume = slamVolume;
         bossAudioSource.PlayOneShot(slam);
+    }
+
+    public void SetSFXVolume(float vol)
+    {
+        bossAudioSource.volume = Mathf.Clamp01(vol);
+    }
+
+    public void PauseBossAudio()
+    {
+        bossAudioSource.Pause();
+    }
+    public void UnPauseBossAudio()
+    {
+        bossAudioSource.UnPause();
     }
 }

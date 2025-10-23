@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -5,29 +6,23 @@ using UnityEngine;
 /// </summary>
 public class EnemyAudioController : MonoBehaviour
 {
+    public static readonly List<EnemyAudioController> All = new List<EnemyAudioController>();
     [Header("References")]
     public AudioSource enemyLoopAudioSource;      // Audio Source for looping clips
     public AudioSource enemySFXAudioSource;       // Audio Source for SFX clips
 
     [Header("Audio Clips")]
-    public AudioClip enemyHit;
-    public float enemyHitVolume = 0.5f;
-    public AudioClip enemyGrunt;
-    public float enemyGruntVolume = 0.5f;
-    public AudioClip enemyIdle;
-    public float enemyIdleVolume = 0.5f;
-    public AudioClip enemyMove;
-    public float enemyMoveVolume = 0.5f;
-    public AudioClip enemyAttack;
-    public float enemyAttackVolume = 0.5f;
-    public AudioClip enemyDeath;
-    public float enemyDeathVolume = 0.5f;
-    public AudioClip enemyProjectile;
-    public float enemyProjectileVolume = 0.2f;
+    public AudioClip enemyHit;                    // Enemy Getting Hit
+    public AudioClip enemyGrunt;                  // Enemy Making Noise
+    public AudioClip enemyIdle;                   // Enemy Idle Sound
+    public AudioClip enemyMove;                   // Enemy Moving Sound
+    public AudioClip enemyAttack;                 // Enemy Attacking Sound
+    public AudioClip enemyDeath;                  // Enemy Death Sound
+    public AudioClip enemyProjectile;             // Enemy Firing projectiles
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void OnEnable()
     {
+        // Gets audio components and set some default settings
         enemyLoopAudioSource = GetComponents<AudioSource>()[0];
         enemySFXAudioSource = GetComponents<AudioSource>()[1];
 
@@ -38,9 +33,27 @@ public class EnemyAudioController : MonoBehaviour
         enemySFXAudioSource.loop = false;
     }
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        // Gets audio components and set some default settings
+        enemyLoopAudioSource = GetComponents<AudioSource>()[0];
+        enemySFXAudioSource = GetComponents<AudioSource>()[1];
+
+        enemyLoopAudioSource.playOnAwake = false;
+        enemySFXAudioSource.playOnAwake = false;
+
+        enemyLoopAudioSource.loop = true;
+        enemySFXAudioSource.loop = false;
+
+        SetSFXVolume(0.1f);
+    }
+
+    /// <summary>
+    /// Functions to call to play, pause, and resume audio sources
+    /// </summary>
     public void PlayMoving()
     {
-        enemyLoopAudioSource.volume = enemyMoveVolume;
         enemyLoopAudioSource.clip = enemyMove;
         if (!enemyLoopAudioSource.isPlaying) enemyLoopAudioSource.Play();
     }
@@ -56,37 +69,49 @@ public class EnemyAudioController : MonoBehaviour
 
     public void PlayEnemyHit()
     {
-        enemySFXAudioSource.volume = enemyHitVolume;
         enemySFXAudioSource.PlayOneShot(enemyHit);
     }
 
     public void PlayEnemyGrunt()
     {
-        enemySFXAudioSource.volume = enemyGruntVolume;
         enemySFXAudioSource.PlayOneShot(enemyGrunt);
     }
 
     public void PlayEnemyIdle()
     {
-        enemySFXAudioSource.volume = enemyIdleVolume;
         enemySFXAudioSource.PlayOneShot(enemyIdle);
     }
 
     public void PlayEnemyAttack()
     {
-        enemySFXAudioSource.volume = enemyAttackVolume;
         enemySFXAudioSource.PlayOneShot(enemyAttack);
     }
 
     public void PlayEnemyProjectile()
     {
-        enemySFXAudioSource.volume = enemyProjectileVolume;
         enemySFXAudioSource.PlayOneShot(enemyProjectile);
     }
 
     public void PlayEnemyDeath()
     {
-        enemySFXAudioSource.volume = enemyDeathVolume;
         enemySFXAudioSource.PlayOneShot(enemyDeath);
+    }
+
+    public void SetSFXVolume(float vol)
+    {
+        enemyLoopAudioSource.volume = Mathf.Clamp01(vol);
+        enemySFXAudioSource.volume = Mathf.Clamp01(vol);
+    }
+
+    public void PauseEnemyAudio()
+    {
+        enemyLoopAudioSource.Pause();
+        enemySFXAudioSource.Pause();
+    }
+
+    public void UnPauseEnemyAudio()
+    {
+        enemyLoopAudioSource.UnPause();
+        enemySFXAudioSource.UnPause();
     }
 }

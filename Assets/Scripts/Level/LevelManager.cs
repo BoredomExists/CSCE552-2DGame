@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager Instance { get; private set; }
+
     [Header("References")]
     public LevelManagerAudioController lmAudio;                 // Audio Controller of the level manager
 
@@ -39,12 +41,12 @@ public class LevelManager : MonoBehaviour
     public Animator animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         Time.timeScale = 1f;                                    // Sets the Time Scale to 1 incase it was set to 0 from other scripts
+        Instance = this;
         lmAudio = GetComponent<LevelManagerAudioController>();  // Gets the audio controller
         player = GameObject.FindWithTag("Player");              // Gets the player
-        finalBoss = GameObject.FindWithTag("Boss");             // Gets the final boss
     }
 
     // Update is called once per frame
@@ -57,10 +59,10 @@ public class LevelManager : MonoBehaviour
         }
 
         // Check Win Condition
-        //if (finalBoss == null)
-        //{
-        //    LoadScreen(winSceneName);
-        //}
+        if (GetFinalBoss() == null)
+        {
+            LoadScreen(winSceneName);
+        }
 
         // Secondary way of accessing pause menu
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -81,6 +83,13 @@ public class LevelManager : MonoBehaviour
             CheckMBRoomB();
         }
     }
+
+    public void SetFinalBoss(GameObject boss)
+    {
+        finalBoss = boss;
+    }
+
+    public GameObject GetFinalBoss() => finalBoss;
 
     // Starts coroutine to load win/lose scenes
     public void LoadScreen(string sceneName)
@@ -105,6 +114,19 @@ public class LevelManager : MonoBehaviour
         playBTN.SetActive(false);
         pauseBTN.SetActive(true);
         pauseMenu.SetActive(true);
+
+        // Pauses all audio sources
+        lmAudio.PauseAllAudio();
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAudioController>().PausePlayerAudio();
+
+        var enemies = FindObjectsOfType<EnemyAudioController>();
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            enemies[i].GetComponent<EnemyAudioController>().PauseEnemyAudio();
+        }
+
+        GetFinalBoss().GetComponent<FinalBossAudioController>().PauseBossAudio();
+
     }
 
     // Unpauses game
@@ -115,6 +137,18 @@ public class LevelManager : MonoBehaviour
         playBTN.SetActive(true);
         pauseBTN.SetActive(false);
         pauseMenu.SetActive(false);
+
+        // Unpauses any audio currently paused
+        lmAudio.UnPauseAllAudio();
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAudioController>().UnPausePlayerAudio();
+
+        var enemies = FindObjectsOfType<EnemyAudioController>();
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            enemies[i].GetComponent<EnemyAudioController>().UnPauseEnemyAudio();
+        }
+
+        GetFinalBoss().GetComponent<FinalBossAudioController>().UnPauseBossAudio();
     }
 
     // Function for pause menu button to go to main menu

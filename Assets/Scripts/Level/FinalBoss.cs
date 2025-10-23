@@ -45,8 +45,9 @@ public class FinalBoss : MonoBehaviour
     private Coroutine move;                                                 // Coroutine for the enemy to do one move at a time
     private Transform player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
+        LevelManager.Instance.SetFinalBoss(transform.parent.gameObject);
         bossAudio = GetComponentInParent<FinalBossAudioController>();                       // Gets the Audio Controller from Parent
         animator = GetComponent<Animator>();                                                // Gets the Animator of the Final Boss
         hs = GetComponentInParent<HealthSystem>();                                          // Gets the HealthSystem of the Final Boss

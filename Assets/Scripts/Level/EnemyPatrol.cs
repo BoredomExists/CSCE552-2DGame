@@ -15,6 +15,8 @@ public class EnemyPatrol : MonoBehaviour
     public float wallCheck = 0.1f;                                          // Checks if the enemy has ran into a wall
     public bool facingRight = true;                                         // Starts the enemy facing right
 
+    public Animator animator;                                               // The animator for the sprite
+
     private Rigidbody2D rb;
 
     void Start()
@@ -46,7 +48,7 @@ public class EnemyPatrol : MonoBehaviour
         }
 
         rb.linearVelocity = fwd.normalized * speed;                                                    // Moves the enemy
-        enemyAudio.PlayMoving();
+        enemyAudio.PlayMoving();                                                                       // Sound to make when moving
     }
 }
 

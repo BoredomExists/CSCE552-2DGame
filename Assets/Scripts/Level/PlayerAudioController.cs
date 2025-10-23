@@ -7,34 +7,25 @@ using UnityEngine;
 public class PlayerAudioController : MonoBehaviour
 {
     [Header("References")]
-    public AudioSource playerLoopSource;
-    public AudioSource playerSFXSource;
+    public AudioSource playerLoopSource;                    // Audio Source for Looping Audio Clips
+    public AudioSource playerSFXSource;                     // Audio Source for One Shot Audio Clips
 
     [Header("Audio Clips")]
-    public AudioClip walking;
-    public float walkingVolume = 0.5f;
-    public float sprintingPitch = 1f;
-    public AudioClip jumping;
-    public float jumpingVolume = 0.5f;
-    public AudioClip landing;
-    public float landingVolume = 0.5f;
-    public AudioClip swordAttack;
-    public float swordAttackVolume = 0.5f;
-    public AudioClip projectileAttack;
-    public float projectileAttackVolume = 0.5f;
-    public AudioClip gravityLaunch;
-    public float gravityLaunchVolume = 0.5f;
-    public AudioClip gravityLaunchLand;
-    public float gravityLaunchLandVolume = 0.5f;
-    public AudioClip repulsorWave;
-    public float repulsorWaveVolume = 0.5f;
-    public AudioClip playerDeath;
-    public float playerDeathVolume = 0.5f;
-    public AudioClip playerHit;
-    public float playerHitVolume = 0.5f;
+    public AudioClip walking;                               // Audio for player walking
+    public float sprintingPitch = 1.5f;                     // Audio Pitch Change to represent player sprinting
+    public AudioClip jumping;                               // Audio for player Jumping
+    public AudioClip landing;                               // Audio for player landing
+    public AudioClip swordAttack;                           // Audio for attacking with sword
+    public AudioClip projectileAttack;                      // Audio for firing projectiles
+    public AudioClip gravityLaunch;                         // Audio for Gravity Launch Ability
+    public AudioClip gravityLaunchLand;                     // Audio for Gravity Launch Ability Landing
+    public AudioClip repulsorWave;                          // Audio for Repuslor Wave ability
+    public AudioClip playerDeath;                           // Audio for player being defeated
+    public AudioClip playerHit;                             // Audio for player getting hit
 
     void Awake()
     {
+        // Gets Audio Sources and preset some values
         playerLoopSource = GetComponents<AudioSource>()[0];
         playerSFXSource = GetComponents<AudioSource>()[1];
 
@@ -45,16 +36,17 @@ public class PlayerAudioController : MonoBehaviour
         playerSFXSource.loop = false;
     }
 
+    /// <summary>
+    /// Functions to call for player sfx audio
+    /// </summary>
     public void PlayWalking()
     {
-        playerLoopSource.volume = walkingVolume;
         playerLoopSource.pitch = 1f;
         playerLoopSource.clip = walking;
         if (!playerLoopSource.isPlaying) playerLoopSource.Play();
     }
     public void PlaySprinting()
     {
-        playerLoopSource.volume = walkingVolume;
         playerLoopSource.pitch = sprintingPitch;
         playerLoopSource.clip = walking;
         if (!playerLoopSource.isPlaying) playerLoopSource.Play();
@@ -71,55 +63,61 @@ public class PlayerAudioController : MonoBehaviour
 
     public void PlayJump()
     {
-        playerSFXSource.volume = jumpingVolume;
         playerSFXSource.PlayOneShot(jumping);
     }
 
     public void PlayLanding()
     {
-        playerSFXSource.volume = landingVolume;
         playerSFXSource.PlayOneShot(landing);
     }
 
     public void PlaySwordAttack()
     {
-        playerSFXSource.volume = swordAttackVolume;
         playerSFXSource.PlayOneShot(swordAttack);
     }
 
     public void PlayProjectileAttack()
     {
-        playerSFXSource.volume = projectileAttackVolume;
         playerSFXSource.PlayOneShot(projectileAttack);
     }
 
     public void PlayGravityLaunch()
     {
-        playerSFXSource.volume = gravityLaunchVolume;
         playerSFXSource.PlayOneShot(gravityLaunch);
     }
 
     public void PlayGravityLaunchLand()
     {
-        playerSFXSource.volume = gravityLaunchLandVolume;
         playerSFXSource.PlayOneShot(gravityLaunchLand);
     }
 
     public void PlayRepulsorWave()
     {
-        playerSFXSource.volume = repulsorWaveVolume;
         playerSFXSource.PlayOneShot(repulsorWave);
     }
 
     public void PlayPlayerDeath()
     {
-        playerSFXSource.volume = playerDeathVolume;
         playerSFXSource.PlayOneShot(playerDeath);
     }
 
     public void PlayPlayerHit()
     {
-        playerSFXSource.volume = playerHitVolume;
         playerSFXSource.PlayOneShot(playerHit);
+    }
+
+    public void SetSFXVolume(float vol)
+    {
+        playerSFXSource.volume = Mathf.Clamp01(vol);
+    }
+
+    public void PausePlayerAudio()
+    {
+        playerSFXSource.Pause();
+    }
+
+    public void UnPausePlayerAudio()
+    {
+        playerSFXSource.UnPause();
     }
 }

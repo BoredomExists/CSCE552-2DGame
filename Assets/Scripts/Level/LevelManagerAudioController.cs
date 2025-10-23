@@ -12,21 +12,31 @@ public class LevelManagerAudioController : MonoBehaviour
     [Header("Audio Clips")]
     public AudioClip UIBleep;
     public AudioClip backgroundMusic;
-    public float backgroundMusicVolume = 0.1f;
     public AudioClip bossMusic;
-    public float bossMusicVolume = 0.1f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         lmAudioSource = GetComponent<AudioSource>();
-        musicSource = GetComponentInChildren<AudioSource>();
+        AudioSource[] sources = GetComponentsInChildren<AudioSource>(true);
+        foreach (var s in sources)
+        {
+            if (s != lmAudioSource)
+            {
+                musicSource = s;
+                break;
+            }
+        }
         if (backgroundMusic != null)
         {
             PlayBackgroundMusic();
         }
     }
 
+
+    /// <summary>
+    /// Functions to call to play, pause, unpause, and set volumes for music and sfx audio
+    /// </summary>
     public void PlayUIButtonPress()
     {
         lmAudioSource.PlayOneShot(UIBleep);
@@ -34,9 +44,9 @@ public class LevelManagerAudioController : MonoBehaviour
 
     public void PlayBackgroundMusic()
     {
+        musicSource.volume = 0.1f;
         musicSource.clip = backgroundMusic;
         musicSource.loop = true;
-        musicSource.volume = backgroundMusicVolume;
         musicSource.Play();
     }
 
@@ -49,7 +59,30 @@ public class LevelManagerAudioController : MonoBehaviour
     {
         musicSource.clip = bossMusic;
         musicSource.loop = true;
-        musicSource.volume = bossMusicVolume;
         musicSource.Play();
+    }
+
+    public void SetSFXVolume(float vol)
+    {
+        lmAudioSource.volume = Mathf.Clamp01(vol);
+    }
+
+    public void SetMusicVolume(float vol)
+    {
+        musicSource.volume = Mathf.Clamp01(vol);
+    }
+
+    public void PauseAllAudio()
+    {
+        lmAudioSource.Pause();
+        musicSource.Pause();
+    }
+
+    public void UnPauseAllAudio()
+    {
+        lmAudioSource.UnPause();
+        musicSource.UnPause();
+        if (!musicSource.isPlaying)
+            musicSource.Play();
     }
 }
