@@ -6,7 +6,6 @@ using UnityEngine;
 /// </summary>
 public class EnemyAudioController : MonoBehaviour
 {
-    public static readonly List<EnemyAudioController> All = new List<EnemyAudioController>();
     [Header("References")]
     public AudioSource enemyLoopAudioSource;      // Audio Source for looping clips
     public AudioSource enemySFXAudioSource;       // Audio Source for SFX clips

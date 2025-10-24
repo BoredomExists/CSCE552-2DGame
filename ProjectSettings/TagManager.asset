@@ -16,6 +16,7 @@ TagManager:
   - Door
   - Boss
   - LevelManager
+  - Barrel
   layers:
   - Default
   - TransparentFX

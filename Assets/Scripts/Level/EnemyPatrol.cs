@@ -48,7 +48,8 @@ public class EnemyPatrol : MonoBehaviour
         }
 
         rb.linearVelocity = fwd.normalized * speed;                                                    // Moves the enemy
-        enemyAudio.PlayMoving();                                                                       // Sound to make when moving
+        if (enemyAudio != null)
+            enemyAudio.PlayMoving();                                                                       // Sound to make when moving
     }
 }
 

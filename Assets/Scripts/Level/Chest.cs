@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 
@@ -11,6 +12,7 @@ public class Chest : MonoBehaviour
     public UserInput userInput;                                                             // UserInput Script of Player Game Object
     public HealthSystem playerHS;                                                           // HealthSystem of Player Game Object
     public Animator animator;                                                               // Animator Component
+    public GameObject secretText;                                                           // Secret Text Game Object in Canvas
 
     public AudioSource chestAudio;                                                          // Audio Source for the Chest
 
@@ -37,6 +39,15 @@ public class Chest : MonoBehaviour
             playerHS.SetMaxHealth(200);
             playerHS.Heal(200);
             animator.SetTrigger("OpenChest");                                                   // Starts trigger animation for chest
+            StartCoroutine(TriggerSecretText());
         }
+    }
+
+    IEnumerator TriggerSecretText()
+    {
+        yield return new WaitForSeconds(1f);
+        secretText.SetActive(true);
+        yield return new WaitForSeconds(4f);
+        secretText.SetActive(false);
     }
 }

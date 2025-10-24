@@ -27,7 +27,7 @@ public class Projectile : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();                                           // Gets rigidbody
         userInput = GameObject.FindWithTag("Player").GetComponent<UserInput>();     // Gets User Input Script
         playerAudio = GameObject.FindWithTag("Player").GetComponent<PlayerAudioController>();   // Gets the Player Audio Controller Script
-        enemyAudio = GameObject.FindWithTag("Enemy").GetComponent<EnemyAudioController>();  // Gets the Enemy Audio Controller Script
+        enemyAudio = GameObject.FindFirstObjectByType<EnemyAudioController>();      // Gets the Enemy Audio Controller Script from the EnemyScriptGetting object
         rb.gravityScale = 0f;                                                       // Sets projetile gravity scale to 0 to fly straight
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;            // Sets detecting mode to continuous to always be checking for collision
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;                    // Sets the interpolation for smoother movements
@@ -69,6 +69,13 @@ public class Projectile : MonoBehaviour
                 enemyAudio.PlayEnemyHit();
                 enemyHS.TakeDamage(userInput.GetDamage());
                 Destroy(gameObject);
+            }
+
+            if (collision.CompareTag("Barrel"))
+            {
+                HealthSystem playerHS = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthSystem>();
+                playerHS.Heal(25);
+                Destroy(collision.gameObject);
             }
         }
         else

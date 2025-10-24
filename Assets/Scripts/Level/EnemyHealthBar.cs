@@ -23,7 +23,7 @@ public class EnemyHealthBar : MonoBehaviour
     {
         mainCam = Camera.main;                                                      // Gets the current main camera set
         hs = GetComponent<HealthSystem>();                                          // Gets the HealthSystem of the enemy
-        enemyAudio = GameObject.FindWithTag("Enemy").GetComponent<EnemyAudioController>(); // Gets the audio controller
+        enemyAudio = GameObject.FindFirstObjectByType<EnemyAudioController>();      // Gets the audio controller from the ScriptGettingEnemy Object
         UICanvas = FindFirstObjectByType<Canvas>();                                 // Gets the Canvas to place Health Bar
     }
 

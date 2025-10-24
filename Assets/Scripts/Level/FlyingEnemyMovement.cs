@@ -21,7 +21,7 @@ public class FlyingEnemyMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();                               // Gets rigidbody component
-        enemyAudio = GetComponent<EnemyAudioController>();              // Gets the Audio Controller
+        GameObject.FindFirstObjectByType<EnemyAudioController>();       // Gets the Audio Controller from EnemyScriptGetting Object
     }
 
     void FixedUpdate()

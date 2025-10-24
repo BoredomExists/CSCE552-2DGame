@@ -16,7 +16,7 @@ public class HitBoxCollisions : MonoBehaviour
     {
         userInput = GameObject.FindWithTag("Player").GetComponent<UserInput>();
         playerAudio = GameObject.FindWithTag("Player").GetComponent<PlayerAudioController>();
-        enemyAudio = GetComponent<EnemyAudioController>();
+        enemyAudio = GameObject.FindFirstObjectByType<EnemyAudioController>();
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -42,6 +42,13 @@ public class HitBoxCollisions : MonoBehaviour
                 playerAudio.PlayPlayerHit();
                 playerHS.TakeDamage(20);
             }
+        }
+
+        if (collision.collider.CompareTag("Barrel"))
+        {
+            HealthSystem playerHS = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthSystem>();
+            playerHS.Heal(25);
+            Destroy(collision.gameObject);
         }
     }
 }

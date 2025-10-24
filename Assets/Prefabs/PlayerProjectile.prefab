@@ -178,7 +178,7 @@ MonoBehaviour:
   playerAudio: {fileID: 0}
   enemyAudio: {fileID: 4014849469856270713, guid: 153edddf90673574380a401f0bf07cdd, type: 3}
   speed: 10
-  lifeTime: 5
+  lifeTime: 3
   playerHS: {fileID: 0}
   enemyHS: {fileID: 0}
   userInput: {fileID: 0}

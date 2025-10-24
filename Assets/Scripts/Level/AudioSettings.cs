@@ -28,7 +28,7 @@ public class AudioSettings : MonoBehaviour
         // Gets each audio source
         lmAudio = GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManagerAudioController>();
         playerAudio = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerAudioController>();
-        enemyAudio = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyAudioController>();
+        enemyAudio = GameObject.FindFirstObjectByType<EnemyAudioController>();
         finalBossAudio = LevelManager.Instance.GetFinalBoss().GetComponent<FinalBossAudioController>();
 
         // Presets slider values
