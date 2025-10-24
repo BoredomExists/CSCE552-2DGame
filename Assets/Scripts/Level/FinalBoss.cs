@@ -33,7 +33,7 @@ public class FinalBoss : MonoBehaviour
 
     [Header("Projectile")]
     public GameObject projPrefab;                                           // Prefab of the enemy projectile
-    public int projDMG = 20;                                                // The damage that the projectile will do on hit
+    public int projDMG = 10;                                                // The damage that the projectile will do on hit
 
     [Header("Slam Ability FX")]
     public LineRenderer slam1Line;                                          // Creates the line for the left arm slam

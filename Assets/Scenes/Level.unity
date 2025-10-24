@@ -2629,10 +2629,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7323816569513605125, guid: 6559cd6124696ea43ab069b85adc4781, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1782623588}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6559cd6124696ea43ab069b85adc4781, type: 3}
 --- !u!4 &204462593 stripped
 Transform:
@@ -5294,7 +5291,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -73, y: 55.699997, z: -10}
+  m_LocalPosition: {x: 53, y: -3.300003, z: -10}
   m_LocalScale: {x: 7, y: 7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8644,6 +8641,10 @@ PrefabInstance:
       value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 6839160249224809562, guid: 2642339350f7ddb40b2465eb2495c86a, type: 3}
+      propertyPath: damage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6839160249224809562, guid: 2642339350f7ddb40b2465eb2495c86a, type: 3}
       propertyPath: otherHand
       value: 
       objectReference: {fileID: 1759944364}
@@ -9465,7 +9466,7 @@ Transform:
   m_GameObject: {fileID: 902636005}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -73, y: 55.699997, z: -10}
+  m_LocalPosition: {x: 53, y: -3.300003, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16372,7 +16373,7 @@ Transform:
   m_GameObject: {fileID: 1660652612}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -73, y: 54.699997, z: 0}
+  m_LocalPosition: {x: 53, y: -4.300003, z: 0}
   m_LocalScale: {x: 7, y: 7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -17738,26 +17739,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 233866627224938399, guid: 44125ec876c282241bd1aeb96f73c894, type: 3}
   m_PrefabInstance: {fileID: 1053692073}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1782623581 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7323816569513605125, guid: 6559cd6124696ea43ab069b85adc4781, type: 3}
-  m_PrefabInstance: {fileID: 204462592}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1782623588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1782623581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f54a7d8fb564f045af4108bbdc9b80c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerAudio: {fileID: 0}
-  enemyAudio: {fileID: 0}
-  userInput: {fileID: 0}
 --- !u!1 &1811069913
 GameObject:
   m_ObjectHideFlags: 0
@@ -20348,6 +20329,10 @@ PrefabInstance:
     - target: {fileID: 5365313298836571657, guid: 2642339350f7ddb40b2465eb2495c86a, type: 3}
       propertyPath: currentHealth
       value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6839160249224809562, guid: 2642339350f7ddb40b2465eb2495c86a, type: 3}
+      propertyPath: damage
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6839160249224809562, guid: 2642339350f7ddb40b2465eb2495c86a, type: 3}
       propertyPath: otherHand

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -40,15 +41,23 @@ public class HitBoxCollisions : MonoBehaviour
             if (playerHS != null)
             {
                 playerAudio.PlayPlayerHit();
-                playerHS.TakeDamage(20);
+                playerHS.TakeDamage(10);
+                StartCoroutine(TempDisableHitBox(gameObject));
             }
         }
 
         if (collision.collider.CompareTag("Barrel"))
         {
             HealthSystem playerHS = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthSystem>();
-            playerHS.Heal(25);
+            playerHS.Heal(30);
             Destroy(collision.gameObject);
         }
+    }
+
+    IEnumerator TempDisableHitBox(GameObject gameObject)
+    {
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        yield return new WaitForSeconds(2f);
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
     }
 }

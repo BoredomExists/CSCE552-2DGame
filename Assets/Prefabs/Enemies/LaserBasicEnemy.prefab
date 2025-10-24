@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 8501387108974844410}
   - component: {fileID: 7559841857231511821}
   - component: {fileID: 3083951286181418107}
+  - component: {fileID: 5505793479088739785}
   m_Layer: 0
   m_Name: LaserBasicEnemy
   m_TagString: Enemy
@@ -208,6 +209,21 @@ MonoBehaviour:
   barPrefab: {fileID: 5445459549343617046, guid: 2d1427046a498be4cb82b8befb8dd7e8, type: 3}
   UICanvas: {fileID: 0}
   worldOffset: {x: 0, y: 1.5, z: 0}
+--- !u!114 &5505793479088739785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7323816569513605125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f54a7d8fb564f045af4108bbdc9b80c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAudio: {fileID: 0}
+  enemyAudio: {fileID: 0}
+  userInput: {fileID: 0}
 --- !u!1 &8301653473340858654
 GameObject:
   m_ObjectHideFlags: 0
