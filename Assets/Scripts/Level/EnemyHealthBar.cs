@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +25,7 @@ public class EnemyHealthBar : MonoBehaviour
         mainCam = Camera.main;                                                      // Gets the current main camera set
         hs = GetComponent<HealthSystem>();                                          // Gets the HealthSystem of the enemy
         enemyAudio = GameObject.FindFirstObjectByType<EnemyAudioController>();      // Gets the audio controller from the ScriptGettingEnemy Object
-        UICanvas = FindFirstObjectByType<Canvas>();                                 // Gets the Canvas to place Health Bar
+        UICanvas = FindCanvasInSameScene();                                 // Gets the Canvas to place Health Bar
     }
 
     void OnEnable()
@@ -80,8 +81,27 @@ public class EnemyHealthBar : MonoBehaviour
         barSlider.value = Mathf.Clamp01((float)hs.GetCurrentHealth() / hs.GetMaxHealth());
         if (hs.GetCurrentHealth() <= 0)
         {
-            enemyAudio.PlayEnemyDeath();
+            StartCoroutine(PlayEnemyDeathSound());
             Destroy(gameObject);
         }
+    }
+
+    IEnumerator PlayEnemyDeathSound()
+    {
+        enemyAudio.PlayEnemyDeath();
+        yield return new WaitForSeconds(.5f);
+    }
+
+    // Canvas from THIS enemy's scene only (avoids menu canvas)
+    private Canvas FindCanvasInSameScene()
+    {
+        var levelScene = gameObject.scene;
+        var canvasList = FindObjectsByType<Canvas>(FindObjectsInactive.Include, FindObjectsSortMode.None);      // Gets both canvases from Main Menu and Level
+        for (int i = 0; i < canvasList.Length; i++)
+        {
+            var c = canvasList[i];
+            if (c && c.gameObject.scene == levelScene) return c;            // Gets current level scene
+        }
+        return null;
     }
 }

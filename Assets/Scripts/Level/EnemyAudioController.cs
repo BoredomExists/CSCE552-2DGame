@@ -53,6 +53,7 @@ public class EnemyAudioController : MonoBehaviour
     /// </summary>
     public void PlayMoving()
     {
+        if (!enemyMove || !enemyLoopAudioSource) return;
         enemyLoopAudioSource.clip = enemyMove;
         if (!enemyLoopAudioSource.isPlaying) enemyLoopAudioSource.Play();
     }
@@ -68,31 +69,37 @@ public class EnemyAudioController : MonoBehaviour
 
     public void PlayEnemyHit()
     {
+        if (!enemyHit || !enemySFXAudioSource) return;
         enemySFXAudioSource.PlayOneShot(enemyHit);
     }
 
     public void PlayEnemyGrunt()
     {
+        if (!enemyGrunt || !enemySFXAudioSource) return;
         enemySFXAudioSource.PlayOneShot(enemyGrunt);
     }
 
     public void PlayEnemyIdle()
     {
+        if (!enemyIdle || !enemySFXAudioSource) return;
         enemySFXAudioSource.PlayOneShot(enemyIdle);
     }
 
     public void PlayEnemyAttack()
     {
+        if (!enemyAttack || !enemySFXAudioSource) return;
         enemySFXAudioSource.PlayOneShot(enemyAttack);
     }
 
     public void PlayEnemyProjectile()
     {
+        if (!enemyProjectile || !enemySFXAudioSource) return;
         enemySFXAudioSource.PlayOneShot(enemyProjectile);
     }
 
     public void PlayEnemyDeath()
     {
+        if (!enemyDeath || !enemySFXAudioSource) return;
         enemySFXAudioSource.PlayOneShot(enemyDeath);
     }
 

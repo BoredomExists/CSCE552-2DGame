@@ -155,7 +155,6 @@ public class LevelManager : MonoBehaviour
     public void QuitToMM()
     {
         lmAudio.PlayUIButtonPress();
-        LoadingScreen.DisableLevelGO();
         SceneManager.LoadScene("MainMenu");
     }
 

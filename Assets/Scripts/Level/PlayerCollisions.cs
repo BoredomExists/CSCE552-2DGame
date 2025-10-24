@@ -10,6 +10,7 @@ public class PlayerCollisions : MonoBehaviour
     [Header("References")]
     private CinemachineCamera cam;                    // Camera that the level is using
     private CapsuleCollider2D playerCollider;         // Player Capsule Collider
+    public GameObject secretText;                                                           // Secret Text Game Object in Canvas
 
     void Awake()
     {
@@ -43,10 +44,12 @@ public class PlayerCollisions : MonoBehaviour
         if (collision.IsTouching(playerCollider)) return;
 
         GameObject room = collision.gameObject;
-        
+
         // Disables all children of Cover Game Object
         if (room.CompareTag("Cover"))
         {
+            if (secretText.activeSelf) secretText.SetActive(false);
+
             room.GetComponent<SpriteRenderer>().enabled = true;
             foreach (Transform child in room.transform)
             {
